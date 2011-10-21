@@ -22,7 +22,7 @@
 	<licenses>
 		<license>
 			<name>BSD</name>
-			<url>http://dev.imagejdev.org/svn/imagej/trunk/image5d/LICENSE.txt</url>
+			<url>LICENSE.txt</url>
 			<distribution>repo</distribution>
 		</license>
 	</licenses>
