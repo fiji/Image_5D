@@ -37,7 +37,11 @@ import ij.macro.MacroExtension;
 import ij.macro.ExtensionDescriptor;
 import ij.plugin.PlugIn;
 
-
+/**
+ * Macro extensions for Image5D.
+ *
+ * @author Shannon Stewman
+ */
 public class Image5D_Extensions implements PlugIn, MacroExtension {
 
   public void run(String arg) {
