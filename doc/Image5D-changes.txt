@@ -1,3 +1,9 @@
+Changes in Image5D 1.2.5:
+- Fix bug preventing Image5D from working in grayscale display mode.
+
+released version 1.2.5: 20111104
+
+
 changes in Image5D 1.2.4:
 - Add Image5D Macro Extensions to the official distribution.
 
