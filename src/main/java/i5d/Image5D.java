@@ -138,7 +138,8 @@ public class Image5D extends ImagePlus {
     
 	// grayColorModel is initialized to an 8-bit grayscale ImdexColorModel in the constructor.
 	// It is used for every channel in every instance of Image5D.  
-	static IndexColorModel grayColorModel;
+	static IndexColorModel grayColorModel =
+                ChannelDisplayProperties.createModelFromColor(Color.white);
 	
 	static final String outOfRange = "Argument out of range: ";
 
@@ -256,8 +257,6 @@ public class Image5D extends ImagePlus {
         }
         setDisplayMode(mode);
 
-        grayColorModel = ChannelDisplayProperties.createModelFromColor(Color.white);
-        
         imageStack.setColorModel(grayColorModel);
         
         setCalibration(super.getCalibration());
