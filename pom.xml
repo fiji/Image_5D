@@ -5,19 +5,78 @@
 		http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>imagej</groupId>
-		<artifactId>imagej-pom-plugins</artifactId>
-		<version>2.0-SNAPSHOT</version>
-	</parent>
-
+	<groupId>net.imagej</groupId>
 	<artifactId>Image_5D</artifactId>
 	<version>1.2.5-SNAPSHOT</version>
 
 	<name>Image5D</name>
 	<description>The Image5D plugins extend image stacks to 5 dimensions: x, y, channel (color), slice (z), frame (t).</description>
-	<url>http://imagejdev.org/image5d</url>
+	<url>http://imagejdev.org/plugins/image5d</url>
 	<inceptionYear>2005</inceptionYear>
+
+	<dependencies>
+		<dependency>
+			<groupId>net.imagej</groupId>
+			<artifactId>ij</artifactId>
+			<version>1.45s</version>
+		</dependency>
+	</dependencies>
+
+	<properties>
+		<!-- NB: Avoid platform encoding warning when copying resources. -->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+	</properties>
+
+	<build>
+		<defaultGoal>install</defaultGoal>
+		<extensions>
+			<extension>
+				<groupId>org.apache.maven.wagon</groupId>
+				<artifactId>wagon-webdav</artifactId>
+				<version>1.0-beta-2</version>
+			</extension>
+		</extensions>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<source>1.5</source>
+					<target>1.5</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.3.1</version>
+				<configuration>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+							<packageName>i5d</packageName>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<reporting>
+		<plugins>
+			<!-- NB: Generate javadocs as part of site generation. -->
+			<plugin>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.7</version>
+				<configuration>
+					<maxmemory>1024m</maxmemory>
+					<!-- NB: Workaround for javadoc bug when classes in the default
+						package access classes from non-default packages. See:
+						http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=5101868 -->
+					<use>false</use>
+				</configuration>
+			</plugin>
+		</plugins>
+	</reporting>
 
 	<licenses>
 		<license>
@@ -26,29 +85,6 @@
 			<distribution>repo</distribution>
 		</license>
 	</licenses>
-
-	<dependencies>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>ij</artifactId>
-			<version>${imagej1.version}</version>
-		</dependency>
-	</dependencies>
-
-	<build>
-		<plugins>
-			<plugin>
-				<artifactId>maven-jar-plugin</artifactId>
-				<configuration>
-					<archive>
-						<manifest>
-							<packageName>i5d</packageName>
-						</manifest>
-					</archive>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
 
 	<developers>
 		<developer>
@@ -97,16 +133,25 @@
 		</contributor>
 	</contributors>
 
-	<!-- NB: for project parent, in case of partial checkout -->
 	<repositories>
+		<!-- NB: for ImageJ -->
 		<repository>
-			<id>imagej.releases</id>
-			<url>http://dev.imagejdev.org/maven2/releases</url>
-		</repository>
-		<repository>
-			<id>imagej.snapshots</id>
-			<url>http://dev.imagejdev.org/maven2/snapshots</url>
+			<id>imagej.thirdparty</id>
+			<url>http://dev.imagejdev.org/maven2/thirdparty</url>
 		</repository>
 	</repositories>
+
+	<distributionManagement>
+		<repository>
+			<id>imagej.releases</id>
+			<name>ImageJ Releases Repository</name>
+			<url>dav:http://dev.imagejdev.org:8081/content/repositories/thirdparty</url>
+		</repository>
+		<snapshotRepository>
+			<id>imagej.snapshots</id>
+			<name>ImageJ Snapshots Repository</name>
+			<url>dav:http://dev.imagejdev.org:8081/content/repositories/snapshots</url>
+		</snapshotRepository>
+	</distributionManagement>
 
 </project>
