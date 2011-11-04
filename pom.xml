@@ -145,7 +145,7 @@
 		<repository>
 			<id>imagej.releases</id>
 			<name>ImageJ Releases Repository</name>
-			<url>dav:http://dev.imagejdev.org:8081/content/repositories/thirdparty</url>
+			<url>dav:http://dev.imagejdev.org:8081/content/repositories/releases</url>
 		</repository>
 		<snapshotRepository>
 			<id>imagej.snapshots</id>
