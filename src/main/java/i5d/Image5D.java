@@ -151,13 +151,15 @@ public class Image5D extends ImagePlus {
 	Image awtImage;
 	int[][] awtChannelPixels;
 
-	protected int displayMode; // ChannelControl.ONE_CHANNEL_GRAY,
-															// ONE_CHANNEL_COLOR, OVERLAY, or TILED
-	protected boolean displayAllGray; // True, when all channels should be
-																		// displayed in grayscale. (used
-																		// in store/restoreChannelProperties.
-	protected boolean displayGrayInTiles; // True, when checkbox "All Gray" is
-																				// selected in tiled mode.
+	// ChannelControl.ONE_CHANNEL_GRAY, ONE_CHANNEL_COLOR, OVERLAY, or TILED
+	protected int displayMode;
+
+	// True, when all channels should be displayed in grayscale. (used in
+	// store/restoreChannelProperties.
+	protected boolean displayAllGray;
+
+	// True, when checkbox "All Gray" is selected in tiled mode.
+	protected boolean displayGrayInTiles;
 
 	protected boolean activated5d;
 
@@ -541,9 +543,10 @@ public class Image5D extends ImagePlus {
 	public synchronized void setCurrentPosition(final int dimension,
 		final int position)
 	{
-		if (dimension < 0 || dimension >= nDimensions) throw new IllegalArgumentException(
-			"Invalid dimension: " + dimension);
-		if (position < 0 || position >= (getDimensions()[dimension])) return;
+		if (dimension < 0 || dimension >= nDimensions) {
+			throw new IllegalArgumentException("Invalid dimension: " + dimension);
+		}
+		if (position < 0 || position >= getDimensions()[dimension]) return;
 		final int[] tmpPos = new int[nDimensions];
 		for (int i = 0; i < nDimensions; ++i) {
 			if (i == dimension) {
@@ -569,8 +572,10 @@ public class Image5D extends ImagePlus {
 	 * @param position
 	 */
 	public synchronized void setCurrentPosition(final int[] position) {
-		if (position.length < nDimensions) throw new IllegalArgumentException(
-			"Position array is smaller than number of dimensions.");
+		if (position.length < nDimensions) {
+			throw new IllegalArgumentException(
+				"Position array is smaller than number of dimensions.");
+		}
 		final int[] dimensions = getDimensions();
 		for (int i = 0; i < nDimensions; i++) {
 			if (position[i] < 0) position[i] = 0;
@@ -588,9 +593,9 @@ public class Image5D extends ImagePlus {
 
 		final int oldChannel = currentPosition[colorDimension];
 		final int newChannel = position[colorDimension];
-		final boolean channelChanged = (oldChannel != newChannel);
+		final boolean channelChanged = oldChannel != newChannel;
 		final boolean stackChanged =
-			channelChanged | (currentPosition[4] != position[4]);
+			channelChanged || currentPosition[4] != position[4];
 
 		// Change the nominal current position.
 		for (int i = 0; i < nDimensions; i++) {
@@ -599,7 +604,7 @@ public class Image5D extends ImagePlus {
 
 		// Change Stack if necessary
 		if (stackChanged) {
-			if (!(imageStack.isVirtual())) {
+			if (!imageStack.isVirtual()) {
 				final ImageStack newStack =
 					new ImageStack(width, height,
 						chDisplayProps[position[colorDimension]].getColorModel());
@@ -678,8 +683,9 @@ public class Image5D extends ImagePlus {
 	}
 
 	public String getDimensionLabel(final int dimension) {
-		if (dimension < 0 || dimension >= nDimensions) throw new IllegalArgumentException(
-			"Invalid Dimension: " + dimension);
+		if (dimension < 0 || dimension >= nDimensions) {
+			throw new IllegalArgumentException("Invalid Dimension: " + dimension);
+		}
 		return dimensionLabels[dimension];
 	}
 
