@@ -525,6 +525,13 @@ public class Image5D extends ImagePlus {
 
 	@Override
 	public synchronized void setSlice(final int index) {
+		if (isImageJCalling()) {
+			// HACK: Fulfill expectations of core ImageJ.
+			// The ImageJ API assumes a 1D index in [1, stackSize].
+			super.setSlice(index);
+			return;
+		}
+		// The Image5D API assumes a Z index in [1, nSlices].
 		setCurrentPosition(3, index - 1);
 	}
 
@@ -547,6 +554,7 @@ public class Image5D extends ImagePlus {
 			throw new IllegalArgumentException("Invalid dimension: " + dimension);
 		}
 		if (position < 0 || position >= getDimensions()[dimension]) return;
+		if (position == currentPosition[dimension]) return; // no change
 		final int[] tmpPos = new int[nDimensions];
 		for (int i = 0; i < nDimensions; ++i) {
 			if (i == dimension) {
@@ -654,14 +662,18 @@ public class Image5D extends ImagePlus {
 
 		restoreCurrentChannelProperties();
 
-		// Call super.setSlice(), but avoid messing up of image window (5D) by
-		// superclass,
-		// which doesn't know about 5D. super.setSlice() calls
-		// updateAndRepaintWindow().
+		// Update position in 5D
 		newPixels = true;
 		final ImageWindow tempWin = win;
 		win = null;
-		super.setSlice(currentPosition[3] + 1);
+		if (nDimensions < 5) {
+			throw new IllegalStateException("Invalid dimensionality: " + nDimensions);
+		}
+		final int channel = currentPosition[2] + 1;
+		final int slice = currentPosition[3] + 1;
+		final int frame = currentPosition[4] + 1;
+		setPosition(channel, slice, frame);
+
 		win = tempWin;
 
 		if (win != null) {
@@ -884,6 +896,12 @@ public class Image5D extends ImagePlus {
 
 	@Override
 	public int getCurrentSlice() {
+		if (isImageJCalling()) {
+			// HACK: Fulfill expectations of core ImageJ.
+			// The ImageJ API assumes a 1D index in [1, stackSize].
+			return super.getCurrentSlice();
+		}
+		// The Image5D API assumes a Z index in [1, nSlices].
 		return currentPosition[3] + 1;
 	}
 
@@ -1797,6 +1815,12 @@ public class Image5D extends ImagePlus {
 		i5d.setCurrentPosition(currentPosition);
 
 		return i5d;
+	}
+
+	private boolean isImageJCalling() {
+		final String callingClass =
+			Thread.currentThread().getStackTrace()[3].getClassName();
+		return callingClass.startsWith("ij.");
 	}
 
 // static utility methods.

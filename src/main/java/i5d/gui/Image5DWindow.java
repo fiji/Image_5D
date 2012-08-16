@@ -56,6 +56,7 @@ import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseWheelEvent;
+import java.lang.reflect.Field;
 import java.util.Vector;
 
 /*
@@ -113,6 +114,16 @@ public class Image5DWindow extends StackWindow implements KeyListener {
 
 		if (imp.getNDimensions() != nDimensions) {
 			throw new IllegalArgumentException("Wrong number of dimensions.");
+		}
+
+		// HACK: Reset hyperStack flag to true, even though not visible.
+		try {
+			final Field hyperStack = StackWindow.class.getDeclaredField("hyperStack");
+			hyperStack.setAccessible(true);
+			hyperStack.set(this, true);
+		}
+		catch (Exception exc) {
+			throw new IllegalStateException(exc);
 		}
 
 		scrollbarsWL = new ScrollbarWithLabel[nDimensions];
@@ -183,14 +194,6 @@ public class Image5DWindow extends StackWindow implements KeyListener {
 		updateSliceSelector();
 		i5d.updateAndRepaintWindow();
 		i5d.updateImageAndDraw();
-		// Stop thread started in parent (StackWindow) constructor.
-		done = true;
-		thread.interrupt();
-		while (thread.isAlive()) {}
-		done = false;
-
-		thread = new Thread(this, "SliceSelector");
-		thread.start();
 
 		/* ----------------------------------------------------------------------------
 		 * Handle Key events:
@@ -269,6 +272,8 @@ public class Image5DWindow extends StackWindow implements KeyListener {
 			for (int i = 3; i < nDimensions; ++i) {
 				if (e.getSource() == scrollbarsWL[i]) {
 					positions[i] = scrollbarsWL[i].getValue();
+					syncPosition();
+					break;
 				}
 			}
 			notify();
@@ -330,6 +335,7 @@ public class Image5DWindow extends StackWindow implements KeyListener {
 	public synchronized void channelChanged() {
 		if (!running2) {
 			positions[2] = channelControl.getCurrentChannel();
+			syncPosition();
 		}
 
 		notify();
@@ -489,27 +495,7 @@ public class Image5DWindow extends StackWindow implements KeyListener {
 
 	@Override
 	public void run() {
-		if (!isInitialized) return;
-		while (!done) {
-			synchronized (this) {
-				try {
-					wait(500);
-				}
-				catch (final InterruptedException e) {}
-			}
-			if (done) return;
-
-			for (int i = 2; i < nDimensions; ++i) {
-				if (positions[i] > 0) {
-					final int p = positions[i];
-					positions[i] = 0;
-					if (p != i5d.getCurrentPosition(i) + 1) {
-						i5d.setCurrentPosition(i, p - 1);
-					}
-				}
-			}
-
-		}
+		// NB: Do nothing, so that the StackWindow thread returns immediately.
 	}
 
 	public ChannelControl getChannelControl() {
@@ -862,6 +848,18 @@ public class Image5DWindow extends StackWindow implements KeyListener {
 						g.drawRect(caBounds.x - 3, caBounds.y - 3, caBounds.width + 5,
 							caBounds.height + 5);
 					}
+				}
+			}
+		}
+	}
+
+	private void syncPosition() {
+		for (int i = 2; i < nDimensions; ++i) {
+			if (positions[i] > 0) {
+				final int p = positions[i];
+				positions[i] = 0;
+				if (p != i5d.getCurrentPosition(i) + 1) {
+					i5d.setCurrentPosition(i, p - 1);
 				}
 			}
 		}
