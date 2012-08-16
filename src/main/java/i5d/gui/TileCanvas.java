@@ -31,22 +31,20 @@ POSSIBILITY OF SUCH DAMAGE.
 
 package i5d.gui;
 
-import ij.*;
+import ij.ImagePlus;
 
 public class TileCanvas extends Image5DCanvas {
-    private static final long serialVersionUID = 8368953085462080966L;
-    protected int channel;	
-    
-	public TileCanvas(ImagePlus imp, int channel) {
+
+	private static final long serialVersionUID = 8368953085462080966L;
+	protected int channel;
+
+	public TileCanvas(final ImagePlus imp, final int channel) {
 		super(imp);
-        this.channel = channel;
+		this.channel = channel;
 	}
-    
-    public TileCanvas(ImagePlus imp) {
-        this(imp, 1);
-    }
-	
 
-
+	public TileCanvas(final ImagePlus imp) {
+		this(imp, 1);
+	}
 
 }
