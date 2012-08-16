@@ -55,7 +55,7 @@ public class A_Image5D_test implements PlugIn {
 //		ImageStack is = NewImage.createFloatImage("test", 200, 200, 10, NewImage.FILL_RAMP).getStack();
 //		is.deleteLastSlice();
 //		is.addSlice("", (Object)pix);
-		//ByteProcessor bp = (ByteProcessor)NewImage.createByteImage("test", 200, 200, 1, NewImage.FILL_RAMP).getProcessor();
+//		ByteProcessor bp = (ByteProcessor)NewImage.createByteImage("test", 200, 200, 1, NewImage.FILL_RAMP).getProcessor();
 		
 //		ImagePlus imgP = new ImagePlus("test img plus", is);
 //		imgP.setSlice(3);
