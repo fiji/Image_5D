@@ -73,6 +73,7 @@ public class Make_Montage implements PlugIn {
     public Make_Montage() {
     }
     
+    @Override
     public void run(String arg) {
         IJ.register(Make_Montage.class);       
         ImagePlus imp = WindowManager.getCurrentImage();

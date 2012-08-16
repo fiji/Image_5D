@@ -233,6 +233,7 @@ public class Image5DWindow extends StackWindow implements KeyListener {
 	
 	/** Handles changes in the scrollbars for z and t. 
 	 */
+	@Override
 	public synchronized void adjustmentValueChanged(AdjustmentEvent e) {
 		if (!running2){
 			
@@ -325,6 +326,7 @@ public class Image5DWindow extends StackWindow implements KeyListener {
 
 	/** Updates the size and value of the stack and time scrollbar 
 	 * and the size and value and other display properties of the channel control. */
+	@Override
 	public void updateSliceSelector() {		
 		if (isInitialized) {
 			int[] newDimensions = imp.getDimensions();
@@ -368,6 +370,7 @@ public class Image5DWindow extends StackWindow implements KeyListener {
  
     /** Creates the subtitle. */
     //Overwritten in order to use the (1.38m) new ImageWindow feature :createSubtitle     
+    @Override
     public String createSubtitle() {
     	String s="";
 	
@@ -433,6 +436,7 @@ public class Image5DWindow extends StackWindow implements KeyListener {
     	return s;
     }
     
+    @Override
     public void paint(Graphics g) {
         // Draw outlines of Canvasses and highlight current image.
         drawRectangles();
@@ -443,6 +447,7 @@ public class Image5DWindow extends StackWindow implements KeyListener {
         drawInfo(g);
     }   
     
+	@Override
 	public void run() {
 		if (!isInitialized)
 			return;
@@ -507,12 +512,13 @@ public class Image5DWindow extends StackWindow implements KeyListener {
     
     // methods of the Keylistener interface
 
+    @Override
     public void keyPressed(KeyEvent e) {        
         if (e.getID() == KeyEvent.KEY_PRESSED && (imp instanceof Image5D)) {             
             Image5D i5d = (Image5D)imp;
             int code = e.getKeyCode();
-            boolean ctrlPressed = ((e.getModifiers()&KeyEvent.CTRL_MASK)!=0);
-            boolean shiftPressed = ((e.getModifiers()&KeyEvent.SHIFT_MASK)!=0);
+            boolean ctrlPressed = ((e.getModifiers()&InputEvent.CTRL_MASK)!=0);
+            boolean shiftPressed = ((e.getModifiers()&InputEvent.SHIFT_MASK)!=0);
                   
             // Keystrokes only act on the active Image.
             if (i5d == WindowManager.getCurrentImage()) {
@@ -554,14 +560,17 @@ public class Image5DWindow extends StackWindow implements KeyListener {
         }
     }
 
+    @Override
     public void keyReleased(KeyEvent e) {
     }
+    @Override
     public void keyTyped(KeyEvent e) {
     }
     
     /** Control + Mousewheel moves channel (Ctrl as in Channel)
      *  Shift - Mousewheel moves frame (shiFt as in Frame) 
      */
+    @Override
     public void mouseWheelMoved(MouseWheelEvent event) {
         if (event.isControlDown()) {
             synchronized(this) {
@@ -634,9 +643,6 @@ public class Image5DWindow extends StackWindow implements KeyListener {
      * If a roi is pasting, it is passed on to the main canvas and the one of the current channel
      * without cloning, i.e. preserving the clipboard. Due to this, one can move the paste roi in 
      * the main canvas or in the canvas of the current channel.
-     * 
-     * @param i5dc
-     * @param roi
      */  
     //TODO: hand on ROIs only between synchronized channels (selected in the channel control.
     

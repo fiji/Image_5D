@@ -47,13 +47,7 @@ public class ScrollbarWithLabel extends Panel implements Adjustable, AdjustmentL
 	 * 
 	 */
 	private static final long serialVersionUID = -7934396430763922931L;
-	/**
-	 * @param orientation
-	 * @param value
-	 * @param visible
-	 * @param minimum
-	 * @param maximum
-	 */
+
 	private Scrollbar bar;
 	private Label label;
 	
@@ -85,6 +79,7 @@ public class ScrollbarWithLabel extends Panel implements Adjustable, AdjustmentL
 	/* (non-Javadoc)
 	 * @see java.awt.Component#getPreferredSize()
 	 */
+	@Override
 	public Dimension getPreferredSize() {
 		Dimension dim = new Dimension(0,0);
 
@@ -105,12 +100,12 @@ public class ScrollbarWithLabel extends Panel implements Adjustable, AdjustmentL
 		return dim;
 	}
 	
+	@Override
 	public Dimension getMinimumSize() {
 		if(orientation==Scrollbar.HORIZONTAL) {
 			return new Dimension(80, 15);
-		} else {
-			return new Dimension(15, 80);
 		}
+		return new Dimension(15, 80);
 	}
 	
     /**
@@ -127,6 +122,7 @@ public class ScrollbarWithLabel extends Panel implements Adjustable, AdjustmentL
 
     /* Adds KeyListener also to all sub-components.
      */
+    @Override
     public synchronized void addKeyListener(KeyListener l) {
         super.addKeyListener(l);
         bar.addKeyListener(l);
@@ -135,6 +131,7 @@ public class ScrollbarWithLabel extends Panel implements Adjustable, AdjustmentL
 
     /* Removes KeyListener also from all sub-components.
      */
+    @Override
     public synchronized void removeKeyListener(KeyListener l) {
         super.removeKeyListener(l);
         bar.removeKeyListener(l);
@@ -145,58 +142,74 @@ public class ScrollbarWithLabel extends Panel implements Adjustable, AdjustmentL
     /* 
      * Methods of the Adjustable interface
      */
+    @Override
     public synchronized void addAdjustmentListener(AdjustmentListener l) {
         if (l == null) {
             return;
         }
         adjustmentListener = AWTEventMulticaster.add(adjustmentListener, l);
     }
+    @Override
     public int getBlockIncrement() {
         return bar.getBlockIncrement();
     }
+    @Override
     public int getMaximum() {
         return bar.getMaximum();
     }
+    @Override
     public int getMinimum() {
         return bar.getMinimum();
     }
+    @Override
     public int getOrientation() {
         return bar.getOrientation();
     }
+    @Override
     public int getUnitIncrement() {
         return bar.getUnitIncrement();
     }
+    @Override
     public int getValue() {
         return bar.getValue();
     }
+    @Override
     public int getVisibleAmount() {
         return bar.getVisibleAmount();
     }
+    @Override
     public synchronized void removeAdjustmentListener(AdjustmentListener l) {
         if (l == null) {
             return;
         }
         adjustmentListener = AWTEventMulticaster.remove(adjustmentListener, l);
     }
+    @Override
     public void setBlockIncrement(int b) {
         bar.setBlockIncrement(b);        
     }
+    @Override
     public void setMaximum(int max) {
         bar.setMaximum(max);        
     }
+    @Override
     public void setMinimum(int min) {
         bar.setMinimum(min);        
     }
+    @Override
     public void setUnitIncrement(int u) {
         bar.setUnitIncrement(u);        
     }
+    @Override
     public void setValue(int v) {
         bar.setValue(v);        
     }
+    @Override
     public void setVisibleAmount(int v) {
         bar.setVisibleAmount(v);        
     }
 
+    @Override
     public void setFocusable(boolean focusable) {
         super.setFocusable(focusable);
         bar.setFocusable(focusable);
@@ -207,6 +220,7 @@ public class ScrollbarWithLabel extends Panel implements Adjustable, AdjustmentL
     /*
      * Method of the AdjustmenListener interface.
      */
+    @Override
     public void adjustmentValueChanged(AdjustmentEvent e) {
         if (bar != null && e.getSource() == bar) {
             AdjustmentEvent myE = new AdjustmentEvent(this, e.getID(), e.getAdjustmentType(), 

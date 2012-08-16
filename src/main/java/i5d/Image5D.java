@@ -146,8 +146,8 @@ public class Image5D extends ImagePlus {
 	/**
 	 * @param title
 	 * @param type
-	 * @param dimensions: array containing width, height, nChannels, nSlices and nFrames.
-	 * @param fill: If true, data is allocated for each combination of <ch, z, t> ("position"). 
+	 * @param dimensions array containing width, height, nChannels, nSlices and nFrames.
+	 * @param fill If true, data is allocated for each combination of <ch, z, t> ("position"). 
 	 * If false, only references to one and the same pixel array will be created. This is
 	 * much faster, but changes to one position will apply to all positions.
 	 */
@@ -176,8 +176,8 @@ public class Image5D extends ImagePlus {
 
 	/**
 	 * Makes an Image5D (one channel and one frame) from an ImageStack. 
-	 * @param title: title of the image
-	 * @param stack: stack containing the image data
+	 * @param title title of the image
+	 * @param stack stack containing the image data
 	 */
 	public Image5D(String title, ImageStack stack) {	
 		this(title, stack, 1, 1, 1);
@@ -187,8 +187,8 @@ public class Image5D extends ImagePlus {
      * Makes an Image5D from an ImageStack and dimension sizes.
      * All other constructors of Image5D eventually call this one. So changes that apply to all 
      * constructors should go here.
-     * @param title: title of the image
-     * @param stack: stack containing the image data. Changes first by channel, then by slice then by frame.
+     * @param title title of the image
+     * @param stack stack containing the image data. Changes first by channel, then by slice then by frame.
      * @param nChannels
      * @param nSlices
      * @param nFrames
@@ -325,6 +325,7 @@ public class Image5D extends ImagePlus {
 	/** Replaces the current stack, with the one specified. Set 'title' to null to leave the title unchanged. 
 	Type ColorRGB is not permitted.
 	If the Image5D is initialized, stack type and dimensions have to match to current type/dims.*/
+	@Override
 	public void setStack(String title, ImageStack stack) {
         
         // Doesn't work for virtual Image5Ds.
@@ -383,12 +384,14 @@ public class Image5D extends ImagePlus {
  
     /* Draws the info in the ImageJ statusbar. */
     protected int xSav, ySav;
+    @Override
     public void mouseMoved(int x, int y) {
         IJ.showStatus(getStatusString(x, y)); // cannot call showStatus in ImageJ, just in IJ
         getCanvas().setShowCursorStatus(true);
         xSav=x; ySav=y;
     }
     
+    @Override
     public void updateStatusbarValue() {
         IJ.showStatus(getStatusString(xSav, ySav));
     }
@@ -411,6 +414,7 @@ public class Image5D extends ImagePlus {
 	Throws an IllegalStateException if an error occurs 
 	while loading the image. 
 	Use of this method is untested. */
+	@Override
 	public void setImage(Image img) {
 		// Avoid messing up of image window (5D) by superclass, which doesn't know about 5D.
 		ImageWindow tempWin = win;
@@ -423,6 +427,7 @@ public class Image5D extends ImagePlus {
 	/** Replaces the ImageProcessor, if any, with the one specified.
 	Set 'title' to null to leave the image title unchanged. */
 	// TODO: this method probably doesn't work like this(?) Think about it.
+	@Override
 	public void setProcessor(String title, ImageProcessor ip) {
 		// Avoid messing up of image window (5D) by superclass, which doesn't know about 5D.
 		ImageWindow tempWin = win;
@@ -435,6 +440,7 @@ public class Image5D extends ImagePlus {
 	}
 	
 	
+	@Override
 	protected void setType(int type) {
 // TODO Doesn't work properly, yet. Exceptions when changing type in GUI.
 // Think about allowing a different type for each channel.	    
@@ -448,6 +454,7 @@ public class Image5D extends ImagePlus {
         setCurrentPosition(colorDimension, index-1);
     }
     
+    @Override
     public synchronized void setSlice(int index) {          
         setCurrentPosition(3, index-1);
     }
@@ -579,6 +586,7 @@ public class Image5D extends ImagePlus {
 		updateAndRepaintWindow();
 	}
 	
+	@Override
 	public int getNDimensions() {
 		return nDimensions;
 	}
@@ -610,12 +618,14 @@ public class Image5D extends ImagePlus {
 	 *  not just that of the current channel/frame.
 	 *  Overrides method in ImagePlus.
 	 */
+	@Override
 	public int getImageStackSize() {
 		return imageStackSize;
 	}
 	
 	/** Returns a reference to the imageStack that contains all channels, slices and frames.
 	 */
+	@Override
 	public ImageStack getImageStack() {
 		return imageStack;
 	}
@@ -627,6 +637,7 @@ public class Image5D extends ImagePlus {
 	    return "";
 	}
     
+    @Override
     public FileInfo getFileInfo() {
         FileInfo fi = super.getFileInfo();
         // changes to fileinfo
@@ -750,6 +761,7 @@ public class Image5D extends ImagePlus {
 	public int getCurrentChannel(){
 		return currentPosition[2]+1;
 	}
+	@Override
 	public int getCurrentSlice(){
 		return currentPosition[3]+1;
 	}
@@ -771,9 +783,6 @@ public class Image5D extends ImagePlus {
 	}
     
     /** Changes the min- and max-value of a channel to these ones.
-     * @param channel
-     * @param min value
-     * @param max value
      */
     public void setChannelMinMax(int channel, double minValue, double maxValue) {
         checkChannel(channel);
@@ -900,11 +909,13 @@ public class Image5D extends ImagePlus {
 
 
     /** Called by ImageWindow.windowActivated(). */
+    @Override
     public void setActivated() {
         activated5d = true;
     }
     
-    public void show(String statusMessage) {
+    @Override
+		public void show(String statusMessage) {
         if (win!=null)
         return;
         
@@ -938,6 +949,7 @@ public class Image5D extends ImagePlus {
         notifyListeners(OPENED);
     }
     
+	@Override
 	public Image getImage() {
 		if (img == null) {
 		    updateImage();
@@ -952,6 +964,7 @@ public class Image5D extends ImagePlus {
 	 * ImageProcessor. 
 	 * For OVERLAY this method has to calculate a lot. 
 	 */
+	@Override
 	public void updateImage() {
 
 		int imageSize = width*height;
@@ -1079,6 +1092,7 @@ public class Image5D extends ImagePlus {
     outline is also displayed.  Does nothing if there
     is no window associated with this image (i.e. show()
     has not been called).*/
+    @Override
     public void draw(){
         if (win!=null)
             ((Image5DWindow)win).repaintCanvasses();
@@ -1089,6 +1103,7 @@ public class Image5D extends ImagePlus {
     associated ImageProcessor, then displays it. Does
     nothing if there is no window associated with
     this image (i.e. show() has not been called).*/
+    @Override
     public void updateAndDraw() {
         if (win != null)
             ((Image5DWindow)win).setImagesUpdated(); 
@@ -1125,6 +1140,7 @@ public class Image5D extends ImagePlus {
     do its job. In addition to ImagePlus.flush() also sets the imageStack to null.
     Does nothing if the image is locked or a
     setIgnoreFlush(true) call has been made. */
+    @Override
     public synchronized void flush() {
         super.flush();
         if (locked)
@@ -1188,6 +1204,7 @@ public class Image5D extends ImagePlus {
     /** Inserts the contents of the internal clipboard into the active image.  
      * For tiled mode: also copies the pasted ROI to all satellite canvasses.
      */
+    @Override
     public void paste() {
         super.paste();
         
@@ -1199,6 +1216,7 @@ public class Image5D extends ImagePlus {
     /** Copies the active channel to the ImageJ clipboard, if only one channel is displayed.
 	 * In OVERLAY mode copy the currently displayed image as an RGB image.
 	 */
+    @Override
     public void copy(boolean cut) {
         if (displayMode != ChannelControl.OVERLAY) {
             super.copy(cut);
@@ -1282,7 +1300,7 @@ public class Image5D extends ImagePlus {
 	 * Works only for dimensions >=2 (i.e. channel, slice, frame) at present.
 	 * @param dimension
 	 * @param newSize
-	 * @param fill: if true, create black image for each position, 
+	 * @param fill if true, create black image for each position,
 	 * 		if false, link a common dummy image to each position
 	 */	
 	public synchronized void expandDimension(int dimension, int newSize, boolean fill) {
@@ -1426,6 +1444,7 @@ public class Image5D extends ImagePlus {
 	/**
 	 * Make setDimensions non-functional, so that no one messes up stack dimensions in the GUI.
 	 */
+	@Override
 	public void setDimensions(int nChannels, int nSlices, int nFrames) {
 		return;
 	}
@@ -1564,6 +1583,7 @@ public class Image5D extends ImagePlus {
         return channelIPs[channel-1];
     }
     
+   @Override
    public Image5D duplicate() {
        String newTitle = WindowManager.makeUniqueName(getTitle());
        ImagePlus impOrig = new ImagePlus(newTitle, imageStack);

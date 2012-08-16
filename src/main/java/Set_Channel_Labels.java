@@ -38,6 +38,7 @@ import ij.plugin.PlugIn;
 
 public class Set_Channel_Labels implements PlugIn {
 
+    @Override
     public void run(String arg) {
 
         ImagePlus imp = WindowManager.getCurrentImage();

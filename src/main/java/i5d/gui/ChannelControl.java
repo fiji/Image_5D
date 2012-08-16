@@ -280,6 +280,7 @@ public class ChannelControl extends Panel implements ItemListener,
 		return currentChannel;
 	}
 
+	@Override
 	public Dimension getMinimumSize() {
 	    int width = selectorPanel.getMinimumSize().width;
 	    if (colorChooserDisplayed) {
@@ -295,6 +296,7 @@ public class ChannelControl extends Panel implements ItemListener,
 		return new Dimension(width, height);
 	}
 
+	@Override
 	public Dimension getPreferredSize() {
 	    int width = selectorPanel.getPreferredSize().width;
 	    if (colorChooserDisplayed) {
@@ -309,6 +311,7 @@ public class ChannelControl extends Panel implements ItemListener,
 		return new Dimension(width, height);
 	}
 
+	@Override
 	public void itemStateChanged(ItemEvent e) {
 		if (e.getSource() == displayChoice) {
 			if (displayChoice.getSelectedIndex()==displayMode) {
@@ -408,6 +411,7 @@ public class ChannelControl extends Panel implements ItemListener,
 	/** Executed if scrollbar has been moved.
 	 * 
 	 */
+	@Override
 	public void adjustmentValueChanged(AdjustmentEvent e) {
 		if (scrollbarWL != null && e.getSource() == scrollbarWL) {
 			currentChannel = scrollbarWL.getValue();
@@ -429,6 +433,7 @@ public class ChannelControl extends Panel implements ItemListener,
 	 * 
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == colorButton) {
 			if (colorChooserDisplayed) {
@@ -617,6 +622,7 @@ public class ChannelControl extends Panel implements ItemListener,
         }
         
 		
+        @Override
         public Dimension getMinimumSize() {
             int widthButtons = allNonePanel.getMinimumSize().width;
             int widthChecks = channelPane.getMinimumSize().width; 
@@ -627,6 +633,7 @@ public class ChannelControl extends Panel implements ItemListener,
             
             return new Dimension(width, height);
         }
+        @Override
         public Dimension getPreferredSize() {
             int widthButtons = allNonePanel.getPreferredSize().width;
             int widthChecks = channelPane.getPreferredSize().width; 
@@ -642,6 +649,7 @@ public class ChannelControl extends Panel implements ItemListener,
 		/* (non-Javadoc)
 		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 		 */
+		@Override
 		public void actionPerformed(ActionEvent e) {
 		    if (e.getSource() == allButton) {
 		        for (int i=0; i<nChannels; ++i) {
@@ -663,6 +671,7 @@ public class ChannelControl extends Panel implements ItemListener,
 		/* (non-Javadoc)
 		 * @see java.awt.event.ItemListener#itemStateChanged(java.awt.event.ItemEvent)
 		 */
+		@Override
 		public void itemStateChanged(ItemEvent e) {
 		    for (int i=0; i<nChannels; ++i) {
 		        if (e.getItemSelectable() == channelDisplayed[i]) {
@@ -754,7 +763,7 @@ public class ChannelControl extends Panel implements ItemListener,
 
 	    /** Sets the Color of the current channel to c in the Image5D.
 	     * 
-	     * @param c: Color
+	     * @param c Color
 	     */
         public void setColor(Color c) {
             i5d.storeChannelProperties(cControl.currentChannel);
@@ -791,6 +800,7 @@ public class ChannelControl extends Panel implements ItemListener,
         }
 	    
 	    
+        @Override
         public Dimension getMinimumSize() {
             int width = cColorCanvas.getMinimumSize().width;
             int height = displayGrayBox.getMinimumSize().height + 5 +
@@ -799,6 +809,7 @@ public class ChannelControl extends Panel implements ItemListener,
                             editLUTButton.getMinimumSize().height;
             return new Dimension(width, height);
         }
+        @Override
         public Dimension getPreferredSize() {
             int width = cColorCanvas.getPreferredSize().width;
             int height = displayGrayBox.getPreferredSize().height + 5 +
@@ -809,6 +820,7 @@ public class ChannelControl extends Panel implements ItemListener,
         }
 
         // Edit Color or edit LUT Button
+        @Override
         public void actionPerformed(ActionEvent e) {
             ColorModel cm = i5d.getChannelDisplayProperties(cControl.currentChannel).getColorModel();
             i5d.storeChannelProperties(cControl.currentChannel);  
@@ -833,6 +845,7 @@ public class ChannelControl extends Panel implements ItemListener,
 
 
         // displayGray Checkbox
+        @Override
         public void itemStateChanged(ItemEvent e) {
             if (e.getItemSelectable() == displayGrayBox) {
                 i5d.storeChannelProperties(cControl.currentChannel);
@@ -996,6 +1009,7 @@ public class ChannelControl extends Panel implements ItemListener,
 //	    }
 
 	    
+	    @Override
 	    public void paint(Graphics g) {
 	        g.drawImage(colorPickerImage, lutWidth+2+hSpacer, 0, cpWidth+2, cpHeight+2, null);
 	        drawLUT();
@@ -1004,15 +1018,18 @@ public class ChannelControl extends Panel implements ItemListener,
 	    }	      
 	    
 	    
+        @Override
         public Dimension getMinimumSize() {
             return new Dimension(canvasWidth, canvasHeight);
         }
+        @Override
         public Dimension getPreferredSize() {
             return new Dimension(canvasWidth, canvasHeight);  
         }
 
         /** Change color, if user presses in one of the colored squares.
          */
+	    @Override
 	    public void mousePressed(MouseEvent e) {
 
 	        int x = e.getX();
@@ -1048,12 +1065,16 @@ public class ChannelControl extends Panel implements ItemListener,
 	        }
 	    }
 	    
+        @Override
         public void mouseClicked(MouseEvent e) {         
         }
+        @Override
         public void mouseReleased(MouseEvent e) {            
         }
+        @Override
         public void mouseEntered(MouseEvent e) {   
         }
+        @Override
         public void mouseExited(MouseEvent e) {
         }
 

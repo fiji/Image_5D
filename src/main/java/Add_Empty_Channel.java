@@ -48,6 +48,7 @@ public class Add_Empty_Channel implements PlugIn {
     static boolean sameSlices;
     static boolean sameFrames;
     
+     @Override
      public void run(String arg) {
         ImagePlus imp = WindowManager.getCurrentImage();
         if (! (imp instanceof Image5D)) {

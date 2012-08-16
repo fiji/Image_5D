@@ -50,6 +50,7 @@ public class ChannelImagePlus extends ImagePlus {
 
     /* Empty method. Prevents messing up the Image5DWindow's title. 
      * A ChannelImagePlus needs no title. */
+    @Override
     public void setTitle(String title) {
         return;
     }
@@ -66,8 +67,7 @@ public class ChannelImagePlus extends ImagePlus {
                 double cValue = cal.getCValue(v);
                 if (cValue==v)
                     return(""+v);
-                else
-                    return(""+IJ.d2s(cValue) + " ("+v+")");
+                return(""+IJ.d2s(cValue) + " ("+v+")");
             case GRAY32:
                 return("" + Float.intBitsToFloat(v));
             default: return("");

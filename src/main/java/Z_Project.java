@@ -63,6 +63,7 @@ public class Z_Project implements PlugIn {
         setImage(i5d);
     }
     
+    @Override
     public void run(String arg) {
         IJ.register(Z_Project.class);       
         imp = WindowManager.getCurrentImage();

@@ -42,8 +42,8 @@ public class Image5DLayout extends ImageLayout implements LayoutManager2 {
 	protected int hgap;
 	protected int vgap;
 	protected Image5DCanvas ic5d;
-	protected Vector imageCanvasses = new Vector();
-	protected Vector imageRectangles = new Vector();
+	protected Vector<Image5DCanvas> imageCanvasses = new Vector<Image5DCanvas>();
+	protected Vector<Rectangle> imageRectangles = new Vector<Rectangle>();
 
 	protected int nCanvassesX = 0;
 	protected int nCanvassesY = 0; 
@@ -69,6 +69,7 @@ public class Image5DLayout extends ImageLayout implements LayoutManager2 {
 
     /** Returns the preferred dimensions for this layout. 
      * This is called when pack() is called on the ImageWindow. (?)*/
+    @Override
     public Dimension preferredLayoutSize(Container target) {
         Dimension dim = new Dimension(0,0);
         Insets insets = target.getInsets();
@@ -99,6 +100,7 @@ public class Image5DLayout extends ImageLayout implements LayoutManager2 {
     }
 
 	/** Returns the minimum dimensions for this layout. */
+	@Override
 	public Dimension minimumLayoutSize(Container target) {
 		return preferredLayoutSize(target);
 	}
@@ -107,6 +109,7 @@ public class Image5DLayout extends ImageLayout implements LayoutManager2 {
 	 * This is called when the window is resized manually or by zooming.
 	 */
 
+	@Override
 	public void layoutContainer(Container target) {
 
 		Dimension d = target.getSize();
@@ -169,7 +172,7 @@ public class Image5DLayout extends ImageLayout implements LayoutManager2 {
 			int tempOffsY = mainOffsY + nY*(canvasDim.height+vgap); 
 			if (i<imageCanvasses.size()) {
 				((Canvas)imageCanvasses.get(i)).setLocation(tempOffsX, tempOffsY);
-				Rectangle imageRect = ((Rectangle)imageRectangles.get(i));
+				Rectangle imageRect = imageRectangles.get(i);
 				imageRect.x = tempOffsX;
 				imageRect.y = tempOffsY;
 				imageRect.width = canvasDim.width;
@@ -202,6 +205,7 @@ public class Image5DLayout extends ImageLayout implements LayoutManager2 {
 		}   	
 	}
 
+	@Override
 	public void addLayoutComponent(Component comp, Object constraints) {
 		synchronized (comp.getTreeLock()) {
 			if ((constraints != null) && (constraints instanceof String)) {
@@ -212,11 +216,12 @@ public class Image5DLayout extends ImageLayout implements LayoutManager2 {
 		}
 	}
 
+	@Override
 	public void addLayoutComponent(String name, Component comp) {
 		synchronized (comp.getTreeLock()) {
 			if (CANVAS.equals(name)) {
 				if (comp instanceof Image5DCanvas) {
-					imageCanvasses.add(comp);	
+					imageCanvasses.add((Image5DCanvas) comp);	
 					imageRectangles.add(new Rectangle());
 					getCanvasLayout();
 				} else {
@@ -234,6 +239,7 @@ public class Image5DLayout extends ImageLayout implements LayoutManager2 {
 		}
 	}
 
+	@Override
 	public void removeLayoutComponent(Component comp) {
 		synchronized (comp.getTreeLock()) {
 			if (imageCanvasses.contains(comp)) {
@@ -255,6 +261,7 @@ public class Image5DLayout extends ImageLayout implements LayoutManager2 {
 	/* (non-Javadoc)
 	 * @see java.awt.LayoutManager2#maximumLayoutSize(java.awt.Container)
 	 */
+	@Override
 	public Dimension maximumLayoutSize(Container target) {
 		return new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE);
 	}
@@ -263,6 +270,7 @@ public class Image5DLayout extends ImageLayout implements LayoutManager2 {
 	/* (non-Javadoc)
 	 * @see java.awt.LayoutManager2#getLayoutAlignmentX(java.awt.Container)
 	 */
+	@Override
 	public float getLayoutAlignmentX(Container target) {
 		return 0.5f;
 	}
@@ -271,6 +279,7 @@ public class Image5DLayout extends ImageLayout implements LayoutManager2 {
 	/* (non-Javadoc)
 	 * @see java.awt.LayoutManager2#getLayoutAlignmentY(java.awt.Container)
 	 */
+	@Override
 	public float getLayoutAlignmentY(Container target) {
 		return 0.5f;
 	}
@@ -279,6 +288,7 @@ public class Image5DLayout extends ImageLayout implements LayoutManager2 {
 	/* (non-Javadoc)
 	 * @see java.awt.LayoutManager2#invalidateLayout(java.awt.Container)
 	 */
+	@Override
 	public void invalidateLayout(Container target) {
 
 	}
@@ -409,10 +419,9 @@ public class Image5DLayout extends ImageLayout implements LayoutManager2 {
     
     public Rectangle getCanvasBounds(int i) {
         if (i>=0 && i<imageRectangles.size()) {
-            return new Rectangle( ((Rectangle)imageRectangles.get(i)) );
-        } else {
-            return null;
+            return new Rectangle(imageRectangles.get(i));
         }
+        return null;
     }   
     
     public int getNCanvasses() {

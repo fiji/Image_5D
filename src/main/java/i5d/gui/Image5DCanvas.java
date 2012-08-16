@@ -56,6 +56,7 @@ public class Image5DCanvas extends ImageCanvas {
         super(imp);
     }
     
+    @Override
     public ImagePlus getImage() {    	
     	return imp;
     }
@@ -127,6 +128,7 @@ public class Image5DCanvas extends ImageCanvas {
     }
 
     /* copied and modified from ImageCanvas */
+    @Override
     public void zoomOut(int x, int y) {
         if (magnification<=0.03125)
             return;
@@ -171,6 +173,7 @@ public class Image5DCanvas extends ImageCanvas {
 //        adaptChannelCanvasses();
 //    }
         /** Copied over from ImageCanvas just to move the "pack" call behind adapting channel canvasses. */
+    @Override
     public void zoomIn(int x, int y) {
         if (magnification>=32)
             return;
@@ -214,6 +217,7 @@ public class Image5DCanvas extends ImageCanvas {
         //IJ.log("adjustSourceRect2: "+srcRect+" "+dstWidth+"  "+dstHeight);
     }
 
+    @Override
     protected void scroll(int sx, int sy) {
         super.scroll(sx, sy);      
         adaptChannelCanvasses();
@@ -228,6 +232,7 @@ public class Image5DCanvas extends ImageCanvas {
 
 /** Predicts, whether Canvas can enlarge on this desktop, even in tiled mode */
     //TODO: ChannelCanvas or z/t sliders are not handled fully correctly.
+    @Override
     protected Dimension canEnlarge(int newWidth, int newHeight) {
         if ((flags&Event.SHIFT_MASK)!=0 || IJ.shiftKeyDown())
             return null;
@@ -254,6 +259,7 @@ public class Image5DCanvas extends ImageCanvas {
     }  
 
   
+    @Override
     public void mouseDragged(MouseEvent e) {        
         boolean selectionBrush = 
             (Toolbar.getToolId()==Toolbar.OVAL && Toolbar.getBrushSize()>0);
@@ -282,6 +288,7 @@ public class Image5DCanvas extends ImageCanvas {
         }
     }
 
+    @Override
     public void mouseMoved(MouseEvent e) {
         super.mouseMoved(e);
 
@@ -296,6 +303,7 @@ public class Image5DCanvas extends ImageCanvas {
         }
     }
 
+    @Override
     public void mousePressed(MouseEvent e) {   
         boolean selectionBrush = 
             (Toolbar.getToolId()==Toolbar.OVAL && Toolbar.getBrushSize()>0);
@@ -329,6 +337,7 @@ public class Image5DCanvas extends ImageCanvas {
         
     }
 
+    @Override
     public void mouseReleased(MouseEvent e) {
         super.mouseReleased(e);
         adaptChannelMouse();

@@ -49,6 +49,7 @@ public class Save_Image5D implements PlugIn {
     
     /** Save the Image5D in TIFF format using a save file
     dialog. Returns false if the user selects cancel. */
+    @Override
     public void run(String arg) {
 
         if (IJ.versionLessThan("1.35c"))
@@ -72,9 +73,6 @@ public class Save_Image5D implements PlugIn {
         String directory = sd.getDirectory();
         imp.startTiming();
         String path = directory+name;
-        
-        if (path==null)           
-            return;
         
         saveAsImage5D(imp, name, directory);      
     }

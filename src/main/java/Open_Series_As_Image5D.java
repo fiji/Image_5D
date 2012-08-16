@@ -43,6 +43,7 @@ import ij.plugin.*;
  */
 public class Open_Series_As_Image5D implements PlugIn {
 
+	@Override
 	public void run(String arg) {
 	    if (IJ.versionLessThan("1.34p")) return;
         

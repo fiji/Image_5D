@@ -57,6 +57,7 @@ public class Hypervolume_Opener implements PlugIn {
 	private String info1;
 //	String selectedFilename;
 
+	@Override
 	public void run(String arg) {
 	    // Get filename and directory and sort list of files in directory.
 		OpenDialog od = new OpenDialog("Open Sequence of Image Stacks...", arg);
@@ -276,14 +277,17 @@ class HypervolumeOpenerDialog extends GenericDialog {
 		this.fileCount = list.length;
 	}
 
+	@Override
 	protected void setup() {
 		setStackInfo();
 	}
  	
+	@Override
 	public void itemStateChanged(ItemEvent e) {
  		setStackInfo();
 	}
 	
+	@Override
 	public void textValueChanged(TextEvent e) {
  		setStackInfo();
 	}
@@ -354,8 +358,7 @@ class HypervolumeOpenerDialog extends GenericDialog {
 		}
 		if (d!=null)
 			return (int)d.doubleValue();
-		else
-			return 0;
+		return 0;
       }
 }
 

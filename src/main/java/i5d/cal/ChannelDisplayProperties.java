@@ -198,7 +198,6 @@ public class ChannelDisplayProperties {
     /** Returns a copy of the colorChannelProperties object.
      * The copy is a deep copy except for the colorModel, where only
      * the reference is copied. 
-     * @return
      */
     public ChannelDisplayProperties copy() {
         ChannelDisplayProperties ccp = new ChannelDisplayProperties();

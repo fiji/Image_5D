@@ -45,6 +45,7 @@ import java.awt.Graphics;
  */
 public class Image5D_Stack_to_RGB implements PlugIn {
 
+    @Override
     public void run(String arg) {
         ImagePlus currentImage = WindowManager.getCurrentImage();
         if (currentImage==null) {

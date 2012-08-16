@@ -38,6 +38,7 @@ import ij.plugin.PlugIn;
 
 public class Duplicate_Image5D implements PlugIn {
 
+    @Override
     public void run(String arg) {
         ImagePlus currentImage = WindowManager.getCurrentImage();
         if (currentImage==null) {

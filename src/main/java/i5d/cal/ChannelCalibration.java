@@ -103,7 +103,6 @@ public class ChannelCalibration {
     
     /** Returns a copy of the ChannelCalibration object.
      * The copy is a deep copy.
-     * @return
      */
     public ChannelCalibration copy() {
         ChannelCalibration cc = new ChannelCalibration();

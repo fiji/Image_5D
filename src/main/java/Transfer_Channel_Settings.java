@@ -42,6 +42,7 @@ public class Transfer_Channel_Settings implements PlugIn {
     static boolean transferLabels = true;
     static boolean transferCalibrations = true;
     
+    @Override
     public void run(String arg) {
         ImagePlus imp = WindowManager.getCurrentImage();
         

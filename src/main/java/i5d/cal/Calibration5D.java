@@ -75,6 +75,7 @@ public class Calibration5D extends Calibration {
 		return dimensionLabels[dimension];
 	}
 	
+	@Override
 	public Calibration copy() {
 		Calibration5D copy = new Calibration5D();
 		copy.pixelWidth = pixelWidth;

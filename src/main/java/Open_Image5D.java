@@ -61,6 +61,7 @@ public static final int tagCAL = 0x0043414c;
 
 
 
+    @Override
     public void run(String arg) {
         IJ.register(Open_Image5D.class);
         

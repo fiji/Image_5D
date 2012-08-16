@@ -69,18 +69,22 @@ public class I5DVirtualStack extends ImageStack{
     }
 
    /** Does nothing. */
+    @Override
     public void addSlice(String sliceLabel, Object pixels) {
     }
 
     /** Does nothing.. */
+    @Override
     public void addSlice(String sliceLabel, ImageProcessor ip) {
     }
     
     /** Does noting. */
+    @Override
     public void addSlice(String sliceLabel, ImageProcessor ip, int n) {
     }
 
     /** Deletes the specified slice, were 1<=n<=nslices. */
+    @Override
     public void deleteSlice(int n) {
         if (n<1 || n>nSlices)
             throw new IllegalArgumentException("Argument out of range: "+n);
@@ -93,28 +97,31 @@ public class I5DVirtualStack extends ImageStack{
         }
     
     /** Deletes the last slice in the stack. */
+    @Override
     public void deleteLastSlice() {
         if (nSlices>0)
             deleteSlice(nSlices);
     }
        
    /** Returns the pixel array for the specified slice, were 1<=n<=nslices. */
+    @Override
     public Object getPixels(int n) {
         ImageProcessor ip = getProcessor(n);
         if (ip!=null)
             return ip.getPixels();
-        else
-            return null;
+        return null;
     }       
     
      /** Assigns a pixel array to the specified slice,
         were 1<=n<=nslices. */
+    @Override
     public void setPixels(Object pixels, int n) {
     }
 
    /** Returns an ImageProcessor for the specified slice,
         were 1<=n<=nslices. Returns null if the stack is empty.
     */
+    @Override
     public ImageProcessor getProcessor(int n) {
         //IJ.log("getProcessor: "+n+"  "+names[n-1]);
         ImagePlus imp = new Opener().openImage(path, names[n-1]);
@@ -131,30 +138,36 @@ public class I5DVirtualStack extends ImageStack{
        }
    
      /** Returns the number of slices in this stack. */
+    @Override
     public int getSize() {
         return nSlices;
     }
 
     /** Returns the file name of the Nth image. */
+    @Override
     public String getSliceLabel(int n) {
          return names[n-1];
     }
     
     /** Returns null. */
+    @Override
     public Object[] getImageArray() {
         return null;
     }
 
    /** Does nothing. */
+    @Override
     public void setSliceLabel(String label, int n) {
     }
 
     /** Always return true. */
+    @Override
     public boolean isVirtual() {
         return true;
     }
 
    /** Does nothing. */
+    @Override
     public void trim() {
     }
         

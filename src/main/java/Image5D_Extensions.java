@@ -44,6 +44,7 @@ import ij.plugin.PlugIn;
  */
 public class Image5D_Extensions implements PlugIn, MacroExtension {
 
+  @Override
   public void run(String arg) {
     if (!IJ.macroRunning()) {
       IJ.error("Cannot install extensions from outside a macro!");
@@ -62,10 +63,12 @@ public class Image5D_Extensions implements PlugIn, MacroExtension {
       ExtensionDescriptor.newDescriptor("setDisplayMode", this, ARG_STRING),
   };
 
+  @Override
   public ExtensionDescriptor[] getExtensionFunctions() {
     return extensions;
   }
 
+  @Override
   public String handleExtension(String name, Object[] args) {
     if (!(IJ.getImage() instanceof Image5D)) {
       IJ.error("Current image is not an Image5D");

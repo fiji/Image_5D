@@ -37,6 +37,7 @@ import ij.plugin.*;
 
 public class Set_Position implements PlugIn {
     
+    @Override
     public void run(String arg) {
         ImagePlus imp = WindowManager.getCurrentImage();
         

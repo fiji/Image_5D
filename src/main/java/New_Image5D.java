@@ -65,6 +65,7 @@ public class New_Image5D implements PlugIn {
     private static String[] fill = {"White", "Black", "Ramp"};
     
     
+    @Override
     public void run(String arg) {
         //TODO: GUI
 //        new Image5DWindow(createImage5D("", 200, 200, 2, 3, 2, NewImage.GRAY8, NewImage.FILL_BLACK, true));
@@ -168,9 +169,7 @@ public class New_Image5D implements PlugIn {
 
         i5d.setDefaultColors();
         i5d.setDefaultChannelNames();
-        if (i5d!=null) {
-            i5d.show(IJ.d2s(((System.currentTimeMillis()-startTime)/1000.0),2)+" seconds");
-        }
+        i5d.show(IJ.d2s(((System.currentTimeMillis()-startTime)/1000.0),2)+" seconds");
     }
     
     void openImage() {

@@ -61,6 +61,7 @@ public class Virtual_Image5D_Opener implements PlugIn {
     private int nLast;
     private boolean assignColor;
     
+    @Override
     public void run(String arg) {
         // Get filename and directory and sort list of files in directory.
         OpenDialog od = new OpenDialog("Open Sequence of Images Stacks...", arg);
@@ -322,6 +323,7 @@ public class Virtual_Image5D_Opener implements PlugIn {
             this.fileCount = list.length;
         }
 
+        @Override
         protected void setup() {
             setStackInfo();
             choice1 = (Choice)choice.elementAt(0);
@@ -329,6 +331,7 @@ public class Virtual_Image5D_Opener implements PlugIn {
             nChoices = choice1.getItemCount();
         }
         
+        @Override
         public void itemStateChanged(ItemEvent e) {
             setStackInfo();
             if (e.getItemSelectable().equals(choice1)) {
@@ -345,6 +348,7 @@ public class Virtual_Image5D_Opener implements PlugIn {
             }
         }
         
+        @Override
         public void textValueChanged(TextEvent e) {
             setStackInfo();
         }
@@ -410,8 +414,7 @@ public class Virtual_Image5D_Opener implements PlugIn {
             }
             if (d!=null)
                 return (int)d.doubleValue();
-            else
-                return 0;
+            return 0;
           }
 
     }
