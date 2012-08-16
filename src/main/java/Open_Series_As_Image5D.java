@@ -29,38 +29,39 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE.
 */
 
-import ij.*;
-import ij.plugin.*;
+import ij.IJ;
+import ij.ImagePlus;
+import ij.WindowManager;
+import ij.plugin.PlugIn;
 
 /*
  * Created on 29.05.2005
  */
 
-/** Opens a series of images or image stacks and converts it to an Image5D. 
- * Calls first the HyperVolumeOpener plugin, then the Stack_to_Image5D plugin.
+/**
+ * Opens a series of images or image stacks and converts it to an Image5D. Calls
+ * first the HyperVolumeOpener plugin, then the Stack_to_Image5D plugin.
  * 
  * @author Joachim Walter
  */
 public class Open_Series_As_Image5D implements PlugIn {
 
 	@Override
-	public void run(String arg) {
-	    if (IJ.versionLessThan("1.34p")) return;
-        
-        ImagePlus imp1 = WindowManager.getCurrentImage();
-        int id=0;
-        if (imp1!=null)
-            id = imp1.getID();
-	    
-        Hypervolume_Opener h = new Hypervolume_Opener();
-	    h.run("");
-	    
-        // If no new image opened, return.
-        ImagePlus imp2 = WindowManager.getCurrentImage();
-        if (imp2==null || imp2.getID()==id)
-            return;
-        
-	    Stack_to_Image5D s = new Stack_to_Image5D();
-	    s.run("");
+	public void run(final String arg) {
+		if (IJ.versionLessThan("1.34p")) return;
+
+		final ImagePlus imp1 = WindowManager.getCurrentImage();
+		int id = 0;
+		if (imp1 != null) id = imp1.getID();
+
+		final Hypervolume_Opener h = new Hypervolume_Opener();
+		h.run("");
+
+		// If no new image opened, return.
+		final ImagePlus imp2 = WindowManager.getCurrentImage();
+		if (imp2 == null || imp2.getID() == id) return;
+
+		final Stack_to_Image5D s = new Stack_to_Image5D();
+		s.run("");
 	}
 }
