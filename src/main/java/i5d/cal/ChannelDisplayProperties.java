@@ -30,20 +30,25 @@ POSSIBILITY OF SUCH DAMAGE.
 */
 
 package i5d.cal;
-import java.awt.*;
-import java.awt.image.*;
 
-import ij.process.*;
+import ij.process.ImageProcessor;
+
+import java.awt.Color;
+import java.awt.image.ColorModel;
+import java.awt.image.IndexColorModel;
 
 /*
  * Created on 08.04.2005
  */
 
-/** "Struct" for storing the display properties of a color channel (e.g. min, max )
+/**
+ * "Struct" for storing the display properties of a color channel (e.g. min, max
+ * )
+ * 
  * @author Joachim Walter
- *
  */
 public class ChannelDisplayProperties {
+
 	private ColorModel colorModel;
 	private double minValue;
 	private double maxValue;
@@ -52,6 +57,7 @@ public class ChannelDisplayProperties {
 	private int lutUpdateMode;
 	private boolean displayedGray;
 	private boolean displayedInOverlay;
+
 //	private String label;
 //    
 //    // Fields for calibration function. Documented in ij.measure.Calibration.
@@ -59,13 +65,13 @@ public class ChannelDisplayProperties {
 //    private int function = Calibration.NONE;
 //    private double[] coefficients;
 //    private boolean zeroClip;
-	
+
 	public ChannelDisplayProperties() {
-	
-		byte[] lut = new byte[256];
-		for (int i=0; i<256; i++) {
-			lut[i] = (byte)i;
-		}		
+
+		final byte[] lut = new byte[256];
+		for (int i = 0; i < 256; i++) {
+			lut[i] = (byte) i;
+		}
 		colorModel = new IndexColorModel(8, 256, lut, lut, lut);
 		minValue = 0d;
 		maxValue = 255d;
@@ -78,38 +84,47 @@ public class ChannelDisplayProperties {
 //        
 //        disableDensityCalibration();
 	}
-	
-	
+
 	public ColorModel getColorModel() {
 		return colorModel;
 	}
-	public void setColorModel(ColorModel colorModel) {
+
+	public void setColorModel(final ColorModel colorModel) {
 		this.colorModel = colorModel;
 	}
+
 	public double getMaxThreshold() {
 		return maxThreshold;
 	}
-	public void setMaxThreshold(double maxThreshold) {
+
+	public void setMaxThreshold(final double maxThreshold) {
 		this.maxThreshold = maxThreshold;
 	}
+
 	public double getMaxValue() {
 		return maxValue;
 	}
-	public void setMaxValue(double maxValue) {
+
+	public void setMaxValue(final double maxValue) {
 		this.maxValue = maxValue;
 	}
+
 	public double getMinThreshold() {
 		return minThreshold;
 	}
-	public void setMinThreshold(double minThreshold) {
+
+	public void setMinThreshold(final double minThreshold) {
 		this.minThreshold = minThreshold;
 	}
+
 	public double getMinValue() {
 		return minValue;
 	}
-	public void setMinValue(double minValue) {
+
+	public void setMinValue(final double minValue) {
 		this.minValue = minValue;
 	}
+
 //	public String getLabel() {
 //		return label;
 //	}
@@ -119,45 +134,49 @@ public class ChannelDisplayProperties {
 	public boolean isDisplayedGray() {
 		return displayedGray;
 	}
-	public void setDisplayedGray(boolean displayGray) {
+
+	public void setDisplayedGray(final boolean displayGray) {
 		this.displayedGray = displayGray;
 	}
+
 	public boolean isDisplayedInOverlay() {
 		return displayedInOverlay;
 	}
-	public void setDisplayedInOverlay(boolean displayedInOverlay) {
+
+	public void setDisplayedInOverlay(final boolean displayedInOverlay) {
 		this.displayedInOverlay = displayedInOverlay;
-	}	
-    public int getLutUpdateMode() {
-        return lutUpdateMode;
-    }
-    public void setLutUpdateMode(int lutUpdateMode) {
-        this.lutUpdateMode = lutUpdateMode;
-    }
-	
+	}
 
-	public static IndexColorModel createModelFromColor(Color color) {
-		byte[] rLut = new byte[256];
-		byte[] gLut = new byte[256];
-		byte[] bLut = new byte[256];
-		
-		int red = color.getRed();
-		int green = color.getGreen();
-		int blue = color.getBlue();
+	public int getLutUpdateMode() {
+		return lutUpdateMode;
+	}
 
-		double rIncr = ((double)red)/255d;
-		double gIncr = ((double)green)/255d;
-		double bIncr = ((double)blue)/255d;
-		
-		for (int i=0; i<256; ++i) {
-			rLut[i] = (byte) (i*rIncr);
-			gLut[i] = (byte) (i*gIncr);
-			bLut[i] = (byte) (i*bIncr);
+	public void setLutUpdateMode(final int lutUpdateMode) {
+		this.lutUpdateMode = lutUpdateMode;
+	}
+
+	public static IndexColorModel createModelFromColor(final Color color) {
+		final byte[] rLut = new byte[256];
+		final byte[] gLut = new byte[256];
+		final byte[] bLut = new byte[256];
+
+		final int red = color.getRed();
+		final int green = color.getGreen();
+		final int blue = color.getBlue();
+
+		final double rIncr = (red) / 255d;
+		final double gIncr = (green) / 255d;
+		final double bIncr = (blue) / 255d;
+
+		for (int i = 0; i < 256; ++i) {
+			rLut[i] = (byte) (i * rIncr);
+			gLut[i] = (byte) (i * gIncr);
+			bLut[i] = (byte) (i * bIncr);
 		}
-		
+
 		return new IndexColorModel(8, 256, rLut, gLut, bLut);
 	}
- 
+
 //// Functions to handle density calibration follow.
 //    public void setFunction(int function, double[] coefficients, String unit, boolean zeroClip) {
 //        if (function==Calibration.NONE)
@@ -194,24 +213,24 @@ public class ChannelDisplayProperties {
 //    public boolean isZeroClip() {
 //        return zeroClip;
 //    }   
-    
-    /** Returns a copy of the colorChannelProperties object.
-     * The copy is a deep copy except for the colorModel, where only
-     * the reference is copied. 
-     */
-    public ChannelDisplayProperties copy() {
-        ChannelDisplayProperties ccp = new ChannelDisplayProperties();
 
-        ccp.setColorModel(getColorModel());
-        ccp.setMinValue(getMinValue());
-        ccp.setMaxValue(getMaxValue());
-        ccp.setMinThreshold(getMinThreshold());
-        ccp.setMaxThreshold(getMaxThreshold());
-        ccp.setLutUpdateMode(getLutUpdateMode());
-        ccp.setDisplayedGray(isDisplayedGray());
-        ccp.setDisplayedInOverlay(isDisplayedInOverlay());
-           
-        return ccp;
-    }
-    
+	/**
+	 * Returns a copy of the colorChannelProperties object. The copy is a deep
+	 * copy except for the colorModel, where only the reference is copied.
+	 */
+	public ChannelDisplayProperties copy() {
+		final ChannelDisplayProperties ccp = new ChannelDisplayProperties();
+
+		ccp.setColorModel(getColorModel());
+		ccp.setMinValue(getMinValue());
+		ccp.setMaxValue(getMaxValue());
+		ccp.setMinThreshold(getMinThreshold());
+		ccp.setMaxThreshold(getMaxThreshold());
+		ccp.setLutUpdateMode(getLutUpdateMode());
+		ccp.setDisplayedGray(isDisplayedGray());
+		ccp.setDisplayedInOverlay(isDisplayedInOverlay());
+
+		return ccp;
+	}
+
 }
