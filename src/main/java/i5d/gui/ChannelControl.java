@@ -428,11 +428,6 @@ public class ChannelControl extends Panel implements ItemListener,
 	    cColorChooser.channelChanged();
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == colorButton) {
@@ -646,9 +641,6 @@ public class ChannelControl extends Panel implements ItemListener,
         }
         
         
-		/* (non-Javadoc)
-		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-		 */
 		@Override
 		public void actionPerformed(ActionEvent e) {
 		    if (e.getSource() == allButton) {
@@ -668,9 +660,6 @@ public class ChannelControl extends Panel implements ItemListener,
 		    }
 		}
 
-		/* (non-Javadoc)
-		 * @see java.awt.event.ItemListener#itemStateChanged(java.awt.event.ItemEvent)
-		 */
 		@Override
 		public void itemStateChanged(ItemEvent e) {
 		    for (int i=0; i<nChannels; ++i) {

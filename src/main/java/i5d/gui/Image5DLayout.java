@@ -258,36 +258,24 @@ public class Image5DLayout extends ImageLayout implements LayoutManager2 {
 	}
 
 
-	/* (non-Javadoc)
-	 * @see java.awt.LayoutManager2#maximumLayoutSize(java.awt.Container)
-	 */
 	@Override
 	public Dimension maximumLayoutSize(Container target) {
 		return new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE);
 	}
 
 
-	/* (non-Javadoc)
-	 * @see java.awt.LayoutManager2#getLayoutAlignmentX(java.awt.Container)
-	 */
 	@Override
 	public float getLayoutAlignmentX(Container target) {
 		return 0.5f;
 	}
 
 
-	/* (non-Javadoc)
-	 * @see java.awt.LayoutManager2#getLayoutAlignmentY(java.awt.Container)
-	 */
 	@Override
 	public float getLayoutAlignmentY(Container target) {
 		return 0.5f;
 	}
 
 
-	/* (non-Javadoc)
-	 * @see java.awt.LayoutManager2#invalidateLayout(java.awt.Container)
-	 */
 	@Override
 	public void invalidateLayout(Container target) {
 

@@ -76,9 +76,6 @@ public class ScrollbarWithLabel extends Panel implements Adjustable, AdjustmentL
         bar.addAdjustmentListener(this);
 	}
 	
-	/* (non-Javadoc)
-	 * @see java.awt.Component#getPreferredSize()
-	 */
 	@Override
 	public Dimension getPreferredSize() {
 		Dimension dim = new Dimension(0,0);
