@@ -31,6 +31,15 @@ POSSIBILITY OF SUCH DAMAGE.
 
 import ij.IJ;
 import ij.ImageJ;
+import ij.ImagePlus;
+
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Scrollbar;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 
 /**
  * Simple class with main method for testing Image5D behavior.
@@ -43,6 +52,55 @@ public class Main {
 		if (IJ.getInstance() == null) new ImageJ();
 		final Open_Image5D openImage5D = new Open_Image5D();
 		openImage5D.run("");
+
+		final ImagePlus imp = IJ.getImage();
+
+		final MyListener listener = new MyListener(imp);
+		addScrollListener(imp, listener, listener);
+	}
+
+	public static void addScrollListener(final ImagePlus img,
+		final AdjustmentListener al, final MouseWheelListener ml)
+	{
+		for (final Component c : img.getWindow().getComponents()) {
+			if (c instanceof Scrollbar) ((Scrollbar) c).addAdjustmentListener(al);
+			else if (c instanceof Container) {
+				for (final Component c2 : ((Container) c).getComponents()) {
+					if (c2 instanceof Scrollbar) {
+						((Scrollbar) c2).addAdjustmentListener(al);
+					}
+				}
+			}
+		}
+		img.getWindow().addMouseWheelListener(ml);
+	}
+
+	private static class MyListener implements AdjustmentListener,
+		MouseWheelListener
+	{
+
+		private final ImagePlus imp;
+
+		public MyListener(final ImagePlus imp) {
+			this.imp = imp;
+		}
+
+		@Override
+		public void mouseWheelMoved(final MouseWheelEvent e) {
+			printPositionInfo();
+		}
+
+		@Override
+		public void adjustmentValueChanged(final AdjustmentEvent e) {
+			printPositionInfo();
+		}
+
+		private void printPositionInfo() {
+			final int channel = imp.getChannel();
+			final int slice = imp.getSlice();
+			final int frame = imp.getFrame();
+			IJ.log("Position: c=" + channel + ", z=" + slice + ", t=" + frame);
+		}
 	}
 
 }
