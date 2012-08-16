@@ -414,8 +414,6 @@ public class Virtual_Image5D_Opener implements PlugIn {
 					bytesPerPixel = 4;
 					break;
 			}
-			width = width;
-			height = height;
 			int n2 = n / inc;
 			if (n2 < 0) n2 = 0;
 			final double size =

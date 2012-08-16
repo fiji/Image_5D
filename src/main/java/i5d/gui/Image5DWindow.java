@@ -76,7 +76,8 @@ public class Image5DWindow extends StackWindow implements KeyListener {
 	protected ScrollbarWithLabel[] scrollbarsWL;
 	protected Image5D i5d;
 
-	protected Vector channelCanvasses = new Vector();
+	protected Vector<Image5DCanvas> channelCanvasses =
+		new Vector<Image5DCanvas>();
 
 	// Array for storing change of position in each dimension.
 	// 0: no change, 1 - dimensionSize : changed position
@@ -211,14 +212,14 @@ public class Image5DWindow extends StackWindow implements KeyListener {
 		removeKeyListener(ij);
 		ic.removeKeyListener(ij);
 		for (int i = 0; i < i5d.getNChannels(); i++) {
-			((Image5DCanvas) channelCanvasses.get(i)).removeKeyListener(ij);
+			channelCanvasses.get(i).removeKeyListener(ij);
 		}
 
 		// Add this as KeyListener to receive keys for c/z/t before ImageJ.
 		addKeyListener(this);
 		ic.addKeyListener(this);
 		for (int i = 0; i < i5d.getNChannels(); i++) {
-			((Image5DCanvas) channelCanvasses.get(i)).addKeyListener(this);
+			channelCanvasses.get(i).addKeyListener(this);
 		}
 		scrollbarsWL[3].addKeyListener(this);
 		scrollbarsWL[4].addKeyListener(this);
@@ -227,7 +228,7 @@ public class Image5DWindow extends StackWindow implements KeyListener {
 		addKeyListener(ij);
 		ic.addKeyListener(ij);
 		for (int i = 0; i < i5d.getNChannels(); i++) {
-			((Image5DCanvas) channelCanvasses.get(i)).addKeyListener(ij);
+			channelCanvasses.get(i).addKeyListener(ij);
 		}
 		scrollbarsWL[3].addKeyListener(ij);
 		scrollbarsWL[4].addKeyListener(ij);
@@ -238,7 +239,7 @@ public class Image5DWindow extends StackWindow implements KeyListener {
 		addKeyListener(this);
 		ic.addKeyListener(this);
 		for (int i = 0; i < i5d.getNChannels(); i++) {
-			((Image5DCanvas) channelCanvasses.get(i)).addKeyListener(this);
+			channelCanvasses.get(i).addKeyListener(this);
 		}
 		scrollbarsWL[3].addKeyListener(this);
 		scrollbarsWL[4].addKeyListener(this);
@@ -284,14 +285,14 @@ public class Image5DWindow extends StackWindow implements KeyListener {
 			this.displayMode != ChannelControl.TILED)
 		{
 			for (int i = 0; i < i5d.getNChannels(); i++) {
-				add((Image5DCanvas) channelCanvasses.get(i), Image5DLayout.CANVAS);
+				add(channelCanvasses.get(i), Image5DLayout.CANVAS);
 			}
 		}
 		else if (displayMode != ChannelControl.TILED &&
 			this.displayMode == ChannelControl.TILED)
 		{
 			for (int i = 0; i < i5d.getNChannels(); i++) {
-				remove((Image5DCanvas) channelCanvasses.get(i));
+				remove(channelCanvasses.get(i));
 			}
 		}
 
@@ -339,11 +340,11 @@ public class Image5DWindow extends StackWindow implements KeyListener {
 
 		if (displayMode == ChannelControl.TILED) {
 			for (int i = 0; i < oldN; i++) {
-				remove((Image5DCanvas) channelCanvasses.get(i));
+				remove(channelCanvasses.get(i));
 			}
 		}
 
-		channelCanvasses = new Vector();
+		channelCanvasses = new Vector<Image5DCanvas>();
 		for (int i = 1; i <= i5d.getNChannels(); i++) {
 			channelCanvasses.add(new Image5DCanvas(i5d.getChannelImagePlus(i)));
 			// Make channelImagePlus believe, this window contains it.
@@ -352,7 +353,7 @@ public class Image5DWindow extends StackWindow implements KeyListener {
 
 		if (displayMode == ChannelControl.TILED) {
 			for (int i = 0; i < i5d.getNChannels(); i++) {
-				add((Image5DCanvas) channelCanvasses.get(i), Image5DLayout.CANVAS);
+				add(channelCanvasses.get(i), Image5DLayout.CANVAS);
 			}
 		}
 	}
@@ -660,7 +661,7 @@ public class Image5DWindow extends StackWindow implements KeyListener {
 		ic.setImageUpdated();
 		if (channelCanvasses == null) return;
 		for (int i = 0; i < channelCanvasses.size(); i++) {
-			((Image5DCanvas) channelCanvasses.get(i)).setImageUpdated();
+			channelCanvasses.get(i).setImageUpdated();
 		}
 	}
 
@@ -668,7 +669,7 @@ public class Image5DWindow extends StackWindow implements KeyListener {
 		ic.repaint();
 		if (channelCanvasses == null) return;
 		for (int i = 0; i < channelCanvasses.size(); i++) {
-			((Image5DCanvas) channelCanvasses.get(i)).repaint();
+			channelCanvasses.get(i).repaint();
 		}
 	}
 
@@ -689,7 +690,7 @@ public class Image5DWindow extends StackWindow implements KeyListener {
 		if (channelCanvasses == null) return;
 
 		for (int i = 0; i < channelCanvasses.size(); i++) {
-			final Image5DCanvas tmpCanvas = ((Image5DCanvas) channelCanvasses.get(i));
+			final Image5DCanvas tmpCanvas = channelCanvasses.get(i);
 			if (tmpCanvas != i5dc) {
 				tmpCanvas.setSrcRectI5d((Rectangle) srcRect.clone());
 				tmpCanvas.setMagnification(mag);
@@ -725,7 +726,7 @@ public class Image5DWindow extends StackWindow implements KeyListener {
 			{
 				tmpRoi = (Roi) roi.clone();
 			}
-			final Image5DCanvas tmpCanvas = ((Image5DCanvas) ic);
+			final Image5DCanvas tmpCanvas = (Image5DCanvas) ic;
 			((Image5D) tmpCanvas.getImage()).putRoi(tmpRoi);
 			tmpCanvas.repaint();
 		}
@@ -733,21 +734,21 @@ public class Image5DWindow extends StackWindow implements KeyListener {
 		if (channelCanvasses == null) return;
 
 		for (int i = 0; i < channelCanvasses.size(); i++) {
-			if (iCanvas == (i + 1)) continue;
+			if (iCanvas == i + 1) continue;
 
 			tmpRoi = roi;
+			// Don't clone roi if the roi is a pasting roi and is adapted from main
+			// canvas to canvas of current channel.
 			if (roi != null &&
 				roi.isVisible() &&
-				// Don't clone roi if the roi is a pasting roi and is adapted from main
-				// canvas to canvas of current channel.
-				!((iCanvas == 0) && (roi.getPasteMode() != Roi.NOT_PASTING) && i5d
-					.getCurrentChannel() == (i + 1)))
+				!(iCanvas == 0 && roi.getPasteMode() != Roi.NOT_PASTING && i5d
+					.getCurrentChannel() == i + 1))
 			{
 
 				tmpRoi = (Roi) roi.clone();
 			}
 
-			final Image5DCanvas tmpCanvas = ((Image5DCanvas) channelCanvasses.get(i));
+			final Image5DCanvas tmpCanvas = channelCanvasses.get(i);
 			((ChannelImagePlus) tmpCanvas.getImage()).putRoi(tmpRoi);
 			tmpCanvas.repaint();
 		}
@@ -762,7 +763,7 @@ public class Image5DWindow extends StackWindow implements KeyListener {
 		final int flags = i5dc.getModifiers();
 
 		if (ic != i5dc) {
-			final Image5DCanvas tmpCanvas = ((Image5DCanvas) ic);
+			final Image5DCanvas tmpCanvas = (Image5DCanvas) ic;
 
 			tmpCanvas.setCursorLoc(cursorLoc.x, cursorLoc.y);
 			tmpCanvas.setModifiers(flags);
@@ -771,7 +772,7 @@ public class Image5DWindow extends StackWindow implements KeyListener {
 		if (channelCanvasses == null) return;
 
 		for (int i = 0; i < channelCanvasses.size(); i++) {
-			final Image5DCanvas tmpCanvas = ((Image5DCanvas) channelCanvasses.get(i));
+			final Image5DCanvas tmpCanvas = channelCanvasses.get(i);
 
 			if (tmpCanvas != i5dc) {
 				tmpCanvas.setCursorLoc(cursorLoc.x, cursorLoc.y);

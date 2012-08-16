@@ -1164,7 +1164,7 @@ public class Image5D extends ImagePlus {
 					try {
 						pg.grabPixels();
 					}
-					catch (final InterruptedException e) {};
+					catch (final InterruptedException e) {}
 
 				}
 				else if (displayMode == ChannelControl.TILED) {
@@ -1183,7 +1183,7 @@ public class Image5D extends ImagePlus {
 					try {
 						pg.grabPixels();
 					}
-					catch (final InterruptedException e) {};
+					catch (final InterruptedException e) {}
 				}
 			}
 
@@ -1461,9 +1461,8 @@ public class Image5D extends ImagePlus {
 
 		// Get size of dimensions and allocate new imageData object.
 		dimensionSize[dimension] = newSize;
-		int dataSize = 1, lowerDimSize = 1, higherDimSize = 1;
+		int lowerDimSize = 1, higherDimSize = 1;
 		for (int i = 2; i < nDimensions; ++i) {
-			dataSize *= dimensionSize[i];
 			if (i < dimension) lowerDimSize *= dimensionSize[i];
 			else if (i > dimension) higherDimSize *= dimensionSize[i];
 		}

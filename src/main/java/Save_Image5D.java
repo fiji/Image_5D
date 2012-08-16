@@ -83,7 +83,6 @@ public class Save_Image5D implements PlugIn {
 		if (name == null) return;
 		final String directory = sd.getDirectory();
 		imp.startTiming();
-		final String path = directory + name;
 
 		saveAsImage5D(imp, name, directory);
 	}
