@@ -5,83 +5,33 @@
 		http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
+	<parent>
+		<groupId>org.scijava</groupId>
+		<artifactId>pom-scijava</artifactId>
+		<version>1.19</version>
+	</parent>
+
 	<groupId>net.imagej</groupId>
 	<artifactId>Image_5D</artifactId>
 	<version>1.2.6-SNAPSHOT</version>
 
 	<name>Image5D</name>
 	<description>The Image5D plugins extend image stacks to 5 dimensions: x, y, channel (color), slice (z), frame (t).</description>
-	<url>http://imagejdev.org/plugins/image5d</url>
+	<url>http://developer.imagej.net/plugins/image5d</url>
 	<inceptionYear>2005</inceptionYear>
 
 	<dependencies>
 		<dependency>
 			<groupId>net.imagej</groupId>
 			<artifactId>ij</artifactId>
-			<version>1.45s</version>
+			<version>${imagej1.version}</version>
 		</dependency>
 	</dependencies>
 
-	<properties>
-		<!-- NB: Avoid platform encoding warning when copying resources. -->
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-	</properties>
-
-	<build>
-		<defaultGoal>install</defaultGoal>
-		<extensions>
-			<extension>
-				<groupId>org.apache.maven.wagon</groupId>
-				<artifactId>wagon-webdav</artifactId>
-				<version>1.0-beta-2</version>
-			</extension>
-		</extensions>
-		<plugins>
-			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.3.2</version>
-				<configuration>
-					<source>1.5</source>
-					<target>1.5</target>
-				</configuration>
-			</plugin>
-			<plugin>
-				<artifactId>maven-jar-plugin</artifactId>
-				<version>2.3.1</version>
-				<configuration>
-					<archive>
-						<manifest>
-							<addClasspath>true</addClasspath>
-							<packageName>i5d</packageName>
-						</manifest>
-					</archive>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
-
-	<reporting>
-		<plugins>
-			<!-- NB: Generate javadocs as part of site generation. -->
-			<plugin>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>2.7</version>
-				<configuration>
-					<maxmemory>1024m</maxmemory>
-					<!-- NB: Workaround for javadoc bug when classes in the default
-						package access classes from non-default packages. See:
-						http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=5101868 -->
-					<use>false</use>
-				</configuration>
-			</plugin>
-		</plugins>
-	</reporting>
-
 	<licenses>
 		<license>
-			<name>BSD</name>
-			<url>LICENSE.txt</url>
+			<name>Simplified BSD License</name>
+			<url>https://github.com/imagej/image5d/blob/master/LICENSE.txt</url>
 			<distribution>repo</distribution>
 		</license>
 	</licenses>
@@ -99,6 +49,19 @@
 			</roles>
 			<timezone>+1</timezone>
 		</developer>
+		<developer>
+			<id>ctrueden</id>
+			<name>Curtis Rueden</name>
+			<email>ctrueden@wisc.edu</email>
+			<url>http://loci.wisc.edu/people/curtis-rueden</url>
+			<organization>UW-Madison LOCI</organization>
+			<organizationUrl>http://loci.wisc.edu/</organizationUrl>
+			<roles>
+				<role>packager</role>
+				<role>developer</role>
+			</roles>
+			<timezone>-6</timezone>
+		</developer>
 	</developers>
 
 	<contributors>
@@ -112,46 +75,36 @@
 				<role>developer</role>
 			</roles>
 			<timezone>-6</timezone>
-			<properties>
-				<picUrl>http://openmicroscopy.org/site/about/development-teams/glencoe-software/melissalinkert.png</picUrl>
-			</properties>
-		</contributor>
-		<contributor>
-			<name>Curtis Rueden</name>
-			<email>ctrueden@wisc.edu</email>
-			<url>http://loci.wisc.edu/people/curtis-rueden</url>
-			<organization>UW-Madison LOCI</organization>
-			<organizationUrl>http://loci.wisc.edu/</organizationUrl>
-			<roles>
-				<role>packager</role>
-				<role>developer</role>
-			</roles>
-			<timezone>-6</timezone>
-			<properties>
-				<picUrl>http://loci.wisc.edu/files/loci/images/people/curtis-2010.jpg</picUrl>
-			</properties>
 		</contributor>
 	</contributors>
 
-	<repositories>
-		<!-- NB: for ImageJ -->
-		<repository>
-			<id>imagej.thirdparty</id>
-			<url>http://dev.imagejdev.org/maven2/thirdparty</url>
-		</repository>
-	</repositories>
+	<issueManagement>
+		<system>GitHub</system>
+		<url>https://github.com/imagej/image5d/issues</url>
+	</issueManagement>
 
-	<distributionManagement>
-		<repository>
-			<id>imagej.releases</id>
-			<name>ImageJ Releases Repository</name>
-			<url>dav:http://dev.imagejdev.org:8081/content/repositories/releases</url>
-		</repository>
-		<snapshotRepository>
-			<id>imagej.snapshots</id>
-			<name>ImageJ Snapshots Repository</name>
-			<url>dav:http://dev.imagejdev.org:8081/content/repositories/snapshots</url>
-		</snapshotRepository>
-	</distributionManagement>
+	<ciManagement>
+		<system>Jenkins</system>
+		<url>http://jenkins.imagej.net/</url>
+	</ciManagement>
+
+	<scm>
+		<connection>scm:git:git://github.com/imagej/image5d.git</connection>
+		<developerConnection>scm:git:git@github.com:imagej/image5d.git</developerConnection>
+		<tag>HEAD</tag>
+		<url>https://github.com/imagej/image5d</url>
+	</scm>
+
+  <!-- NB: for project parent, in case of partial checkout -->
+  <repositories>
+    <repository>
+      <id>imagej.releases</id>
+      <url>http://maven.imagej.net/content/repositories/releases</url>
+    </repository>
+    <repository>
+      <id>imagej.snapshots</id>
+      <url>http://maven.imagej.net/content/repositories/snapshots</url>
+    </repository>
+  </repositories>
 
 </project>
