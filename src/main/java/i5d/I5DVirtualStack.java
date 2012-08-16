@@ -30,6 +30,7 @@ POSSIBILITY OF SUCH DAMAGE.
 */
 
 package i5d;
+
 import ij.ImagePlus;
 import ij.ImageStack;
 import ij.io.Opener;
@@ -38,137 +39,134 @@ import ij.process.ImageProcessor;
 import java.awt.image.ColorModel;
 
 /**
-This class represents an array of disk-resident images.
-*/
-public class I5DVirtualStack extends ImageStack{
-    static final int INITIAL_SIZE = 100;
-    String path;
-    int nSlices;
-    String[] names;
-    
-    /** Creates a new, empty virtual stack. */
-    public I5DVirtualStack(int width, int height, ColorModel cm, String path) {
-        super(width, height, cm);
-        this.path = path;
-        names = new String[INITIAL_SIZE];
-        //IJ.log("VirtualStack: "+path);
-    }
+ * This class represents an array of disk-resident images.
+ */
+public class I5DVirtualStack extends ImageStack {
 
-     /** Adds an image to the end of the stack. */
-    public void addSlice(String name) {
-        if (name==null) 
-            throw new IllegalArgumentException("'name' is null!");
-        nSlices++;
-       //IJ.log("addSlice: "+nSlices+"  "+name);
-       if (nSlices==names.length) {
-            String[] tmp = new String[nSlices*2];
-            System.arraycopy(names, 0, tmp, 0, nSlices);
-            names = tmp;
-        }
-        names[nSlices-1] = name;
-    }
+	static final int INITIAL_SIZE = 100;
+	String path;
+	int nSlices;
+	String[] names;
 
-   /** Does nothing. */
-    @Override
-    public void addSlice(String sliceLabel, Object pixels) {
-    }
+	/** Creates a new, empty virtual stack. */
+	public I5DVirtualStack(final int width, final int height,
+		final ColorModel cm, final String path)
+	{
+		super(width, height, cm);
+		this.path = path;
+		names = new String[INITIAL_SIZE];
+		// IJ.log("VirtualStack: "+path);
+	}
 
-    /** Does nothing.. */
-    @Override
-    public void addSlice(String sliceLabel, ImageProcessor ip) {
-    }
-    
-    /** Does noting. */
-    @Override
-    public void addSlice(String sliceLabel, ImageProcessor ip, int n) {
-    }
+	/** Adds an image to the end of the stack. */
+	public void addSlice(final String name) {
+		if (name == null) throw new IllegalArgumentException("'name' is null!");
+		nSlices++;
+		// IJ.log("addSlice: "+nSlices+"  "+name);
+		if (nSlices == names.length) {
+			final String[] tmp = new String[nSlices * 2];
+			System.arraycopy(names, 0, tmp, 0, nSlices);
+			names = tmp;
+		}
+		names[nSlices - 1] = name;
+	}
 
-    /** Deletes the specified slice, were 1<=n<=nslices. */
-    @Override
-    public void deleteSlice(int n) {
-        if (n<1 || n>nSlices)
-            throw new IllegalArgumentException("Argument out of range: "+n);
-            if (nSlices<1)
-                return;
-            for (int i=n; i<nSlices; i++)
-                names[i-1] = names[i];
-            names[nSlices-1] = null;
-            nSlices--;
-        }
-    
-    /** Deletes the last slice in the stack. */
-    @Override
-    public void deleteLastSlice() {
-        if (nSlices>0)
-            deleteSlice(nSlices);
-    }
-       
-   /** Returns the pixel array for the specified slice, were 1<=n<=nslices. */
-    @Override
-    public Object getPixels(int n) {
-        ImageProcessor ip = getProcessor(n);
-        if (ip!=null)
-            return ip.getPixels();
-        return null;
-    }       
-    
-     /** Assigns a pixel array to the specified slice,
-        were 1<=n<=nslices. */
-    @Override
-    public void setPixels(Object pixels, int n) {
-    }
+	/** Does nothing. */
+	@Override
+	public void addSlice(final String sliceLabel, final Object pixels) {}
 
-   /** Returns an ImageProcessor for the specified slice,
-        were 1<=n<=nslices. Returns null if the stack is empty.
-    */
-    @Override
-    public ImageProcessor getProcessor(int n) {
-        //IJ.log("getProcessor: "+n+"  "+names[n-1]);
-        ImagePlus imp = new Opener().openImage(path, names[n-1]);
-        if (imp!=null && this.getColorModel()!=null) {
-            imp.getProcessor().setColorModel(this.getColorModel());
-        } else
-            return null;
-        return imp.getProcessor();
-     }
+	/** Does nothing.. */
+	@Override
+	public void addSlice(final String sliceLabel, final ImageProcessor ip) {}
 
-    /** Returns the directory of the stack. */
-       public String getPath() {
-           return path;
-       }
-   
-     /** Returns the number of slices in this stack. */
-    @Override
-    public int getSize() {
-        return nSlices;
-    }
+	/** Does noting. */
+	@Override
+	public void addSlice(final String sliceLabel, final ImageProcessor ip,
+		final int n)
+	{}
 
-    /** Returns the file name of the Nth image. */
-    @Override
-    public String getSliceLabel(int n) {
-         return names[n-1];
-    }
-    
-    /** Returns null. */
-    @Override
-    public Object[] getImageArray() {
-        return null;
-    }
+	/** Deletes the specified slice, were 1<=n<=nslices. */
+	@Override
+	public void deleteSlice(final int n) {
+		if (n < 1 || n > nSlices) throw new IllegalArgumentException(
+			"Argument out of range: " + n);
+		if (nSlices < 1) return;
+		for (int i = n; i < nSlices; i++)
+			names[i - 1] = names[i];
+		names[nSlices - 1] = null;
+		nSlices--;
+	}
 
-   /** Does nothing. */
-    @Override
-    public void setSliceLabel(String label, int n) {
-    }
+	/** Deletes the last slice in the stack. */
+	@Override
+	public void deleteLastSlice() {
+		if (nSlices > 0) deleteSlice(nSlices);
+	}
 
-    /** Always return true. */
-    @Override
-    public boolean isVirtual() {
-        return true;
-    }
+	/** Returns the pixel array for the specified slice, were 1<=n<=nslices. */
+	@Override
+	public Object getPixels(final int n) {
+		final ImageProcessor ip = getProcessor(n);
+		if (ip != null) return ip.getPixels();
+		return null;
+	}
 
-   /** Does nothing. */
-    @Override
-    public void trim() {
-    }
-        
+	/**
+	 * Assigns a pixel array to the specified slice, were 1<=n<=nslices.
+	 */
+	@Override
+	public void setPixels(final Object pixels, final int n) {}
+
+	/**
+	 * Returns an ImageProcessor for the specified slice, were 1<=n<=nslices.
+	 * Returns null if the stack is empty.
+	 */
+	@Override
+	public ImageProcessor getProcessor(final int n) {
+		// IJ.log("getProcessor: "+n+"  "+names[n-1]);
+		final ImagePlus imp = new Opener().openImage(path, names[n - 1]);
+		if (imp != null && this.getColorModel() != null) {
+			imp.getProcessor().setColorModel(this.getColorModel());
+		}
+		else return null;
+		return imp.getProcessor();
+	}
+
+	/** Returns the directory of the stack. */
+	public String getPath() {
+		return path;
+	}
+
+	/** Returns the number of slices in this stack. */
+	@Override
+	public int getSize() {
+		return nSlices;
+	}
+
+	/** Returns the file name of the Nth image. */
+	@Override
+	public String getSliceLabel(final int n) {
+		return names[n - 1];
+	}
+
+	/** Returns null. */
+	@Override
+	public Object[] getImageArray() {
+		return null;
+	}
+
+	/** Does nothing. */
+	@Override
+	public void setSliceLabel(final String label, final int n) {}
+
+	/** Always return true. */
+	@Override
+	public boolean isVirtual() {
+		return true;
+	}
+
+	/** Does nothing. */
+	@Override
+	public void trim() {}
+
 }
