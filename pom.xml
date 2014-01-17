@@ -32,7 +32,6 @@
 	<licenses>
 		<license>
 			<name>Simplified BSD License</name>
-			<url>https://github.com/imagej/image5d/blob/master/LICENSE.txt</url>
 			<distribution>repo</distribution>
 		</license>
 	</licenses>
