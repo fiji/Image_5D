@@ -89,8 +89,8 @@
 	</ciManagement>
 
 	<scm>
-		<connection>scm:git:git://github.com/imagej/image5d.git</connection>
-		<developerConnection>scm:git:git@github.com:imagej/image5d.git</developerConnection>
+		<connection>scm:git:git://github.com/imagej/image5d</connection>
+		<developerConnection>scm:git:git@github.com:imagej/image5d</developerConnection>
 		<tag>HEAD</tag>
 		<url>https://github.com/imagej/image5d</url>
 	</scm>
