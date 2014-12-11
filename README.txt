@@ -9,4 +9,4 @@ change the display of the channels. Options are one channel in gray, one
 channel in color and an overlay of selected channels.
 
 For further details, see the Image5D web page at:
-    http://developer.imagej.net/plugins/image5d
+    http://fiji.sc/Image5D
