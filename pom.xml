@@ -80,19 +80,19 @@
 
 	<issueManagement>
 		<system>GitHub</system>
-		<url>https://github.com/imagej/image5d/issues</url>
+		<url>https://github.com/fiji/Image_5D/issues</url>
 	</issueManagement>
 
 	<ciManagement>
 		<system>Jenkins</system>
-		<url>http://jenkins.imagej.net/</url>
+		<url>http://jenkins.imagej.net/job/Image_5D/</url>
 	</ciManagement>
 
 	<scm>
-		<connection>scm:git:git://github.com/imagej/image5d</connection>
-		<developerConnection>scm:git:git@github.com:imagej/image5d</developerConnection>
+		<connection>scm:git:git://github.com/fiji/Image_5D</connection>
+		<developerConnection>scm:git:git@github.com:fiji/Image_5D</developerConnection>
 		<tag>HEAD</tag>
-		<url>https://github.com/imagej/image5d</url>
+		<url>https://github.com/fiji/Image_5D</url>
 	</scm>
 
 </project>
