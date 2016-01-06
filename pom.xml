@@ -17,22 +17,6 @@
 	<description>The Image5D plugins extend image stacks to 5 dimensions: x, y, channel (color), slice (z), frame (t).</description>
 	<url>http://fiji.sc/Image_5D</url>
 	<inceptionYear>2005</inceptionYear>
-
-	<repositories>
-		<!-- NB: for project parent -->
-		<repository>
-			<id>imagej.public</id>
-			<url>http://maven.imagej.net/content/groups/public</url>
-		</repository>
-	</repositories>
-
-	<dependencies>
-		<dependency>
-			<groupId>net.imagej</groupId>
-			<artifactId>ij</artifactId>
-		</dependency>
-	</dependencies>
-
 	<licenses>
 		<license>
 			<name>Simplified BSD License</name>
@@ -67,7 +51,6 @@
 			<timezone>-6</timezone>
 		</developer>
 	</developers>
-
 	<contributors>
 		<contributor>
 			<name>Melissa Linkert</name>
@@ -82,21 +65,33 @@
 		</contributor>
 	</contributors>
 
-	<issueManagement>
-		<system>GitHub</system>
-		<url>https://github.com/fiji/Image_5D/issues</url>
-	</issueManagement>
-
-	<ciManagement>
-		<system>Jenkins</system>
-		<url>http://jenkins.imagej.net/job/Image_5D/</url>
-	</ciManagement>
-
 	<scm>
 		<connection>scm:git:git://github.com/fiji/Image_5D</connection>
 		<developerConnection>scm:git:git@github.com:fiji/Image_5D</developerConnection>
 		<tag>HEAD</tag>
 		<url>https://github.com/fiji/Image_5D</url>
 	</scm>
+	<issueManagement>
+		<system>GitHub</system>
+		<url>https://github.com/fiji/Image_5D/issues</url>
+	</issueManagement>
+	<ciManagement>
+		<system>Jenkins</system>
+		<url>http://jenkins.imagej.net/job/Image_5D/</url>
+	</ciManagement>
 
+	<repositories>
+		<!-- NB: for project parent -->
+		<repository>
+			<id>imagej.public</id>
+			<url>http://maven.imagej.net/content/groups/public</url>
+		</repository>
+	</repositories>
+
+	<dependencies>
+		<dependency>
+			<groupId>net.imagej</groupId>
+			<artifactId>ij</artifactId>
+		</dependency>
+	</dependencies>
 </project>
