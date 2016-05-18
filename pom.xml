@@ -78,6 +78,12 @@
 		</repository>
 	</repositories>
 
+	<properties>
+		<scijava.jvm.version>1.8</scijava.jvm.version>
+		<javadoc.skip>true</javadoc.skip>
+	</properties>
+
+
 	<dependencies>
 		<dependency>
 			<groupId>net.imagej</groupId>
