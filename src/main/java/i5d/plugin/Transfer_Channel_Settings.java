@@ -1,3 +1,4 @@
+package i5d.plugin;
 //
 // Transfer_Channel_Settings.java
 //

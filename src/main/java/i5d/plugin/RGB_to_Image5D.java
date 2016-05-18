@@ -1,3 +1,4 @@
+package i5d.plugin;
 //
 // RGB_to_Image5D.java
 //

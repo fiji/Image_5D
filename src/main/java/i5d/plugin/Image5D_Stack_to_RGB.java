@@ -1,3 +1,4 @@
+package i5d.plugin;
 //
 // Image5D_Stack_to_RGB.java
 //

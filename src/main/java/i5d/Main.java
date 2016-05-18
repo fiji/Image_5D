@@ -1,3 +1,4 @@
+package i5d;
 //
 // Main.java
 //
@@ -40,6 +41,8 @@ import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
+
+import i5d.plugin.Open_Image5D;
 
 /**
  * Simple class with main method for testing Image5D behavior.

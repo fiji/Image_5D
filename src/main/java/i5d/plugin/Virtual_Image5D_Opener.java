@@ -1,3 +1,4 @@
+package i5d.plugin;
 //
 // Virtual_Image5D_Opener.java
 //

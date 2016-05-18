@@ -1,5 +1,6 @@
+package i5d.plugin;
 //
-// Open_Series_As_Image5D.java
+// I5D_about.java
 //
 
 /*
@@ -29,39 +30,18 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE.
 */
 
+import i5d.Image5D;
 import ij.IJ;
-import ij.ImagePlus;
-import ij.WindowManager;
 import ij.plugin.PlugIn;
 
-/*
- * Created on 29.05.2005
- */
-
-/**
- * Opens a series of images or image stacks and converts it to an Image5D. Calls
- * first the HyperVolumeOpener plugin, then the Stack_to_Image5D plugin.
- * 
- * @author Joachim Walter
- */
-public class Open_Series_As_Image5D implements PlugIn {
+public class I5D_about implements PlugIn {
 
 	@Override
 	public void run(final String arg) {
-		if (IJ.versionLessThan("1.34p")) return;
+		IJ.showMessage("Image5D " + Image5D.VERSION,
+			"Viewing and handling 5D (x/y/channel/z/time) image-data.\n"
+				+ "Author: Joachim Walter");
 
-		final ImagePlus imp1 = WindowManager.getCurrentImage();
-		int id = 0;
-		if (imp1 != null) id = imp1.getID();
-
-		final Hypervolume_Opener h = new Hypervolume_Opener();
-		h.run("");
-
-		// If no new image opened, return.
-		final ImagePlus imp2 = WindowManager.getCurrentImage();
-		if (imp2 == null || imp2.getID() == id) return;
-
-		final Stack_to_Image5D s = new Stack_to_Image5D();
-		s.run("");
 	}
+
 }

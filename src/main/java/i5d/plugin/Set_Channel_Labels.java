@@ -1,5 +1,6 @@
+package i5d.plugin;
 //
-// Duplicate_Image5D.java
+// Set_Channel_Labels.java
 //
 
 /*
@@ -33,25 +34,46 @@ import i5d.Image5D;
 import ij.IJ;
 import ij.ImagePlus;
 import ij.WindowManager;
+import ij.gui.GenericDialog;
 import ij.plugin.PlugIn;
 
-public class Duplicate_Image5D implements PlugIn {
+public class Set_Channel_Labels implements PlugIn {
 
 	@Override
 	public void run(final String arg) {
-		final ImagePlus currentImage = WindowManager.getCurrentImage();
-		if (currentImage == null) {
+
+		final ImagePlus imp = WindowManager.getCurrentImage();
+
+		if (imp == null) {
 			IJ.noImage();
 			return;
 		}
-		if (!(currentImage instanceof Image5D)) {
+		if (!(imp instanceof Image5D)) {
 			IJ.error("Image is not an Image5D.");
 			return;
 		}
-		final Image5D i5d = (Image5D) currentImage;
 
-		(i5d.duplicate()).show();
+		final Image5D i5d = (Image5D) imp;
 
+		final int nChannels = i5d.getNChannels();
+
+		final GenericDialog gd = new GenericDialog("Set Channel Labels");
+		gd.addMessage("Channels");
+		for (int c = 1; c <= nChannels; c++) {
+			gd.addStringField(new Integer(c).toString(), i5d.getChannelCalibration(c)
+				.getLabel(), 10);
+		}
+		gd.showDialog();
+
+		if (gd.wasCanceled()) {
+			return;
+		}
+
+		for (int c = 1; c <= nChannels; c++) {
+			i5d.getChannelCalibration(c).setLabel(gd.getNextString());
+		}
+
+		i5d.updateWindowControls();
 	}
 
 }

@@ -1,5 +1,6 @@
+package i5d.plugin;
 //
-// Set_Channel_Display.java
+// Set_Position.java
 //
 
 /*
@@ -30,17 +31,18 @@ POSSIBILITY OF SUCH DAMAGE.
 */
 
 import i5d.Image5D;
+import i5d.gui.ChannelControl;
 import ij.IJ;
 import ij.ImagePlus;
 import ij.WindowManager;
 import ij.gui.GenericDialog;
+import ij.gui.ImageWindow;
 import ij.plugin.PlugIn;
 
-public class Set_Channel_Display implements PlugIn {
+public class Set_Position implements PlugIn {
 
 	@Override
 	public void run(final String arg) {
-
 		final ImagePlus imp = WindowManager.getCurrentImage();
 
 		if (imp == null) {
@@ -53,31 +55,51 @@ public class Set_Channel_Display implements PlugIn {
 		}
 
 		final Image5D i5d = (Image5D) imp;
+		final ImageWindow win = i5d.getWindow();
+		int displayMode = 0;
+		boolean allGray = false;
+		if (win != null) {
+			displayMode = i5d.getDisplayMode();
+			if (displayMode < 0 || displayMode >= ChannelControl.displayModes.length)
+			{
+				displayMode = 1;
+			}
+			allGray =
+				(displayMode == ChannelControl.TILED && i5d.isDisplayGrayInTiles());
+		}
 
-		int currentChannel = i5d.getCurrentChannel();
-
-		final GenericDialog gd = new GenericDialog("Set Channel Properties");
-		gd.addNumericField("Channel", currentChannel, 0, 5, "");
-		gd.addCheckbox("Display_in_Overlay", i5d
-			.isDisplayedInOverlay(currentChannel));
-		gd.addCheckbox("Display_Gray", i5d.isDisplayedGray(currentChannel));
+		final GenericDialog gd = new GenericDialog("Image5D Set Position");
+		gd.addNumericField("x-Position", 1, 0, 5, "");
+		gd.addNumericField("y-Position", 1, 0, 5, "");
+		gd.addNumericField("channel", i5d.getCurrentChannel(), 0, 5, "");
+		gd.addNumericField("slice", i5d.getCurrentSlice(), 0, 5, "");
+		gd.addNumericField("frame", i5d.getCurrentFrame(), 0, 5, "");
+		gd.addChoice("Display Mode", ChannelControl.displayModes,
+			ChannelControl.displayModes[displayMode]);
+		gd.addCheckbox("All Gray when Tiled", allGray);
 		gd.showDialog();
 
 		if (gd.wasCanceled()) {
 			return;
 		}
 
-		currentChannel = (int) gd.getNextNumber();
-		if (currentChannel < 1 || currentChannel > i5d.getNChannels()) {
-			IJ.error("Invalid Channel");
-			return;
+		final int[] position = new int[5];
+		for (int i = 0; i < 5; i++) {
+			position[i] = (int) gd.getNextNumber();
+			if (position[i] < 1 || position[i] > i5d.getDimensionSize(i)) {
+				position[i] = 0;
+			}
+			else {
+				position[i] -= 1;
+			}
 		}
 
-		i5d.setDisplayedInOverlay(currentChannel, gd.getNextBoolean());
-		i5d.setDisplayedGray(currentChannel, gd.getNextBoolean());
+		displayMode = gd.getNextChoiceIndex();
+		allGray = gd.getNextBoolean();
+		i5d.setDisplayGrayInTiles(allGray);
+		i5d.setDisplayMode(displayMode);
 
-		i5d.updateWindowControls();
-		i5d.updateImageAndDraw();
+		i5d.setCurrentPosition(position);
 
 	}
 
