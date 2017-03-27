@@ -74,8 +74,8 @@
 		<url>https://github.com/fiji/Image_5D/issues</url>
 	</issueManagement>
 	<ciManagement>
-		<system>Jenkins</system>
-		<url>http://jenkins.imagej.net/job/Image_5D/</url>
+		<system>Travis CI</system>
+		<url>https://travis-ci.org/fiji/Image_5D</url>
 	</ciManagement>
 
 	<properties>
