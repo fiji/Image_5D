@@ -3,9 +3,9 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>sc.fiji</groupId>
-		<artifactId>pom-fiji</artifactId>
-		<version>23.1.0</version>
+		<groupId>org.scijava</groupId>
+		<artifactId>pom-scijava</artifactId>
+		<version>14.0.0</version>
 		<relativePath />
 	</parent>
 
@@ -17,6 +17,10 @@
 	<description>The Image5D plugins extend image stacks to 5 dimensions: x, y, channel (color), slice (z), frame (t).</description>
 	<url>http://fiji.sc/Image_5D</url>
 	<inceptionYear>2005</inceptionYear>
+	<organization>
+		<name>Fiji</name>
+		<url>https://fiji.sc/</url>
+	</organization>
 	<licenses>
 		<license>
 			<name>Simplified BSD License</name>
@@ -52,6 +56,13 @@
 		<contributor><name>Shannon Stewman</name></contributor>
 	</contributors>
 
+	<mailingLists>
+		<mailingList>
+			<name>ImageJ Forum</name>
+			<archive>http://forum.imagej.net/</archive>
+		</mailingList>
+	</mailingLists>
+
 	<scm>
 		<connection>scm:git:git://github.com/fiji/Image_5D</connection>
 		<developerConnection>scm:git:git@github.com:fiji/Image_5D</developerConnection>
@@ -67,19 +78,18 @@
 		<url>http://jenkins.imagej.net/job/Image_5D/</url>
 	</ciManagement>
 
+	<properties>
+		<package-name>sc.fiji.i5d</package-name>
+		<license.licenseName>gpl_v3</license.licenseName>
+		<license.copyrightOwners>Fiji developers.</license.copyrightOwners>
+	</properties>
+
 	<repositories>
-		<!-- NB: for project parent -->
 		<repository>
 			<id>imagej.public</id>
 			<url>http://maven.imagej.net/content/groups/public</url>
 		</repository>
 	</repositories>
-
-	<properties>
-		<scijava.jvm.version>1.8</scijava.jvm.version>
-		<javadoc.skip>true</javadoc.skip>
-	</properties>
-
 
 	<dependencies>
 		<dependency>
