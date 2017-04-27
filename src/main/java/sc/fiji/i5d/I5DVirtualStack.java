@@ -85,7 +85,7 @@ public class I5DVirtualStack extends ImageStack {
 		final int n)
 	{}
 
-	/** Deletes the specified slice, were 1<=n<=nslices. */
+	/** Deletes the specified slice, where {@code 1<=n<=nslices}. */
 	@Override
 	public void deleteSlice(final int n) {
 		if (n < 1 || n > nSlices) throw new IllegalArgumentException(
@@ -103,7 +103,10 @@ public class I5DVirtualStack extends ImageStack {
 		if (nSlices > 0) deleteSlice(nSlices);
 	}
 
-	/** Returns the pixel array for the specified slice, were 1<=n<=nslices. */
+	/**
+	 * Returns the pixel array for the specified slice, where {@code
+	 * 1<=n<=nslices}.
+	 */
 	@Override
 	public Object getPixels(final int n) {
 		final ImageProcessor ip = getProcessor(n);
@@ -112,14 +115,14 @@ public class I5DVirtualStack extends ImageStack {
 	}
 
 	/**
-	 * Assigns a pixel array to the specified slice, were 1<=n<=nslices.
+	 * Assigns a pixel array to the specified slice, where {@code 1<=n<=nslices}.
 	 */
 	@Override
 	public void setPixels(final Object pixels, final int n) {}
 
 	/**
-	 * Returns an ImageProcessor for the specified slice, were 1<=n<=nslices.
-	 * Returns null if the stack is empty.
+	 * Returns an ImageProcessor for the specified slice, where
+	 * {@code 1<=n<=nslices}. Returns null if the stack is empty.
 	 */
 	@Override
 	public ImageProcessor getProcessor(final int n) {

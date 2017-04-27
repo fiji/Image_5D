@@ -176,10 +176,10 @@ public class Image5D extends ImagePlus {
 	 * @param type
 	 * @param dimensions array containing width, height, nChannels, nSlices and
 	 *          nFrames.
-	 * @param fill If true, data is allocated for each combination of <ch, z, t>
-	 *          ("position"). If false, only references to one and the same pixel
-	 *          array will be created. This is much faster, but changes to one
-	 *          position will apply to all positions.
+	 * @param fill If true, data is allocated for each combination of
+	 *          {@code <ch, z, t>} ("position"). If false, only references to one
+	 *          and the same pixel array will be created. This is much faster,
+	 *          but changes to one position will apply to all positions.
 	 */
 	public Image5D(final String title, final int type, final int[] dimensions,
 		final boolean fill)
@@ -334,11 +334,11 @@ public class Image5D extends ImagePlus {
 	/**
 	 * Compares the "testVersion" to the version of the installed class. The class
 	 * must specify its version in a static field "VERSION". Result is -1, if
-	 * testVersion < VERSION, +1, if testVersion > VERSION and 0 if both are the
-	 * same. Version numbering is expected in the format x.y.z where x, y and z
-	 * are positive integer numbers. E.g. this method was introduced in Image5D
-	 * version 1.1.6. If z is not specified, it is counted as 0. No letters are
-	 * allowed in the version, only digits.
+	 * {@code testVersion < VERSION}, +1, if {@code testVersion > VERSION} and 0
+	 * if both are the same. Version numbering is expected in the format {@code
+	 * x.y.z} where x, y and z are positive integer numbers. E.g. this method was
+	 * introduced in Image5D version 1.1.6. If z is not specified, it is counted
+	 * as 0. No letters are allowed in the version, only digits.
 	 */
 	public static int compareToVersion(String testVersion) {
 		int startTest = 0, endTest = 0, numTest = 0;
@@ -1444,9 +1444,9 @@ public class Image5D extends ImagePlus {
 	}
 
 	/**
-	 * Expands Image5D to larger size in one dimension. Does nothing, if newSize
-	 * <= current size. Works only for dimensions >=2 (i.e. channel, slice, frame)
-	 * at present.
+	 * Expands Image5D to larger size in one dimension. Does nothing, if
+	 * {@code newSize <= current size}. Works only for {@code dimension >=2}
+	 * (i.e. channel, slice, frame) at present.
 	 * 
 	 * @param dimension
 	 * @param newSize

@@ -35,7 +35,7 @@ package sc.fiji.i5d.util;
  * Sorts an array of Strings treating any sequences of digits as numbers, not
  * single digits. (Windows XP Style) Essentially the ij.util.StringSorter with a
  * new compare method. Works nicely, when image names have two or more numbers
- * (like name-<ch>-<z>-<t>).
+ * (like {@code name-<ch>-<z>-<t>}).
  */
 public class NumberedStringSorter {
 
