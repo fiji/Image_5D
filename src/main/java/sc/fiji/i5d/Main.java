@@ -59,13 +59,19 @@ public class Main {
 
 		final ImagePlus imp = IJ.getImage();
 		
-		final Set_Channel_Labels setlabels = new Set_Channel_Labels();
-		setlabels.run(null);
-		
-		IJ.wait(6000);
+		IJ.run("Measure");
+		IJ.selectWindow("20210616_TR_HypM_MOC2_CCR2KO_1B_3_ROI_002_2_I5D");
 		
 		final Image5D_Stack_to_RGB stackToRGB = new Image5D_Stack_to_RGB();
 		stackToRGB.run("");
+				
+		
+		
+//		final Set_Channel_Labels setlabels = new Set_Channel_Labels();
+//		setlabels.run(null);
+//		
+//		IJ.wait(4000);
+//		stackToRGB.run("");
 
 		final MyListener listener = new MyListener(imp);
 		addScrollListener(imp, listener, listener);
