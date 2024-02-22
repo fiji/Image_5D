@@ -328,7 +328,9 @@ public class ChannelControl extends Panel implements ItemListener,
 
 	@Override
 	public Dimension getPreferredSize() {
-		int width = selectorPanel.getPreferredSize().width;
+		// TEMP FIX 07-04-2023: manually set width to 150
+		// int width = selectorPanel.getPreferredSize().width; //[original replacement]
+		int width = 150;
 		if (colorChooserDisplayed) {
 			width += cColorChooser.getPreferredSize().width;
 		}

@@ -33,7 +33,9 @@ POSSIBILITY OF SUCH DAMAGE.
 import ij.IJ;
 import ij.ImageJ;
 import ij.ImagePlus;
+import sc.fiji.i5d.plugin.Image5D_Stack_to_RGB;
 import sc.fiji.i5d.plugin.Open_Image5D;
+import sc.fiji.i5d.plugin.Set_Channel_Labels;
 
 import java.awt.Component;
 import java.awt.Container;
@@ -56,6 +58,20 @@ public class Main {
 		openImage5D.run("");
 
 		final ImagePlus imp = IJ.getImage();
+		
+		IJ.run("Measure");
+		IJ.selectWindow("20210616_TR_HypM_MOC2_CCR2KO_1B_3_ROI_002_2_I5D");
+		
+		final Image5D_Stack_to_RGB stackToRGB = new Image5D_Stack_to_RGB();
+		stackToRGB.run("");
+				
+		
+		
+//		final Set_Channel_Labels setlabels = new Set_Channel_Labels();
+//		setlabels.run(null);
+//		
+//		IJ.wait(4000);
+//		stackToRGB.run("");
 
 		final MyListener listener = new MyListener(imp);
 		addScrollListener(imp, listener, listener);
